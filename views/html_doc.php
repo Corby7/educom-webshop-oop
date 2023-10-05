@@ -13,9 +13,8 @@ class HtmlDoc {
         <head>';
     }
 
-    private function showHeadContent() {
-        echo '
-        <title>hoi!</title>';
+    protected function showHeadContent() {
+
     }
 
     private function showHeadEnd() {
@@ -28,9 +27,8 @@ class HtmlDoc {
         <body>';
     }
 
-    private function showBodyContent() {
-        echo '
-        <p>Hello World!</p>';
+    protected function showBodyContent() {
+        
     }
 
     private function showBodyEnd() {
