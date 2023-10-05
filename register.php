@@ -16,49 +16,29 @@ function showRegisterHeader() {
 */
 function showRegisterForm($data) {
     //extract values from the $userdata array
-    extract($data);
+    require('formcreator.php');
+    $extraErrors = ['passcheckErr', 'emailknownErr', 'emailunknownErr', 'wrongpassErr'];
+    $resultArray = array_intersect_key($data, array_flip($extraErrors));
+    //var_dump($extraErrors);
+    if (!empty($resultArray)) {
+        var_dump($resultArray);
+    }
 
-    echo '
-    <form method="post" action="index.php">
-        <p><span class="error"><strong>* Vereist veld</strong></span></p>
-        <ul class="flex-outer">
+    if (!empty(array_filter($resultArray, function ($value) {
+        return !empty($value) || $value === 0;
+    }))) {
+        var_dump($resultArray);
+    }
+    //var_dump($data);
 
-            <li>
-                <label for="fname">Voornaam:</label>
-                <input type="text" id="fname" name="fname" value="' . $fname . '">
-                <span class="error">* ' . $fnameErr . '</span>
-            </li>
+    showFormStart(true);
+    showFormField('fname', 'Voornaam:', 'text', $data);
+    showFormField('lname', 'Achternaam:', 'text', $data);
+    showFormField('email', 'E-mailadres:', 'email', $data, NULL, false, $extraErrors);
+    showFormField('pass', 'Wachtwoord:', 'password', $data);
+    showFormField('repeatpass', 'Herhaal wachtwoord:', 'password', $data, NULL, false, $extraErrors);
+    showFormEnd('register', 'verstuur');
 
-            <li>
-                <label for="lname">Achternaam:</label>
-                <input type="text" id="lname" name="lname" value="' . $lname . '">
-                <span class="error">* ' . $lnameErr . '</span>
-            </li>
-
-            <li>
-                <label for="email">E-mailadres:</label>
-                <input type="email" id="email" name="email" value="' . $email . '">
-                <span class="error">* ' . $emailErr . $emailknownErr . '</span>
-            </li>
-
-            <li>
-                <label for="pass">Wachtwoord:</label>
-                <input type="password" id="pass" name="pass" value="' . $pass . '">
-                <span class="error">* ' . $passErr . '</span>
-            </li>
-
-            <li>
-                <label for="repeatpass">Herhaal wachtwoord:</label>
-                <input type="password" id="repeatpass" name="repeatpass" value="' . $repeatpass . '">
-                <span class="error">* ' . $repeatpassErr . $passcheckErr . '</span>
-            </li>
-
-            <li>
-                <button type="submit" name="page" value="register">Verstuur</button>
-            </li>
-
-        </ul>
-    </form>';
 }
 
 ?>
