@@ -3,6 +3,7 @@ include_once "html_doc.php";
 require('../sessionmanager.php');
 
 class BasicDoc extends HtmlDoc {
+
     protected $data;
 
     public function __construct($myData) {
@@ -19,16 +20,13 @@ class BasicDoc extends HtmlDoc {
         '<link rel="stylesheet" href="CSS/style.css">';
     }
 
-    protected function showHeader() {
-        echo
-        '';
-    }
+    protected function showHeader() {}
 
     private function showMenu() {
         function showMenuItem($link, $text) {
             echo '<li><a href="index.php?page=' . $link . '">' . $text . '</a></li>';
         }
-        
+
         echo
         '<nav>';  
         if(isUserLoggedIn()) {
@@ -53,10 +51,7 @@ class BasicDoc extends HtmlDoc {
         </nav>';
     }
 
-    protected function showContent() {
-        echo '
-        <p>Hello World!</p>';
-    }
+    protected function showContent() {}
 
     private function showFooter() {
         echo

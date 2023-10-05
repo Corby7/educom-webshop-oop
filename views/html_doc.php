@@ -13,9 +13,7 @@ class HtmlDoc {
         <head>';
     }
 
-    protected function showHeadContent() {
-
-    }
+    protected function showHeadContent() {}
 
     private function showHeadEnd() {
         echo '
@@ -27,9 +25,7 @@ class HtmlDoc {
         <body>';
     }
 
-    protected function showBodyContent() {
-        
-    }
+    protected function showBodyContent() {}
 
     private function showBodyEnd() {
         echo '
