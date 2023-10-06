@@ -1,6 +1,6 @@
 <?php
 include_once "html_doc.php";
-require('../sessionmanager.php');
+//require('../sessionmanager.php');
 
 class BasicDoc extends HtmlDoc {
 
@@ -31,7 +31,7 @@ class BasicDoc extends HtmlDoc {
         '<nav>';  
         if(isUserLoggedIn()) {
             echo '<ul class="uppernav">';
-            showMenuItem("settings", "Account Settings");
+            showMenuItem("accountsettings", "Account Settings");
             showMenuItem("logout", "Logout: " . getLoggedInUserName());
             showMenuItem("shoppingcart", "Shopping Cart");
             echo '</ul>';
