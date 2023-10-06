@@ -104,7 +104,7 @@ function processRequest($page) {
                 }
                 break;
 
-            case 'settings':
+            case 'accountsettings':
                 $data = validateSettingsForm($data);
                 if ($data['valid']) {
                     extract($data);
@@ -216,261 +216,59 @@ function handleActions() {
  * @param array $data An array containing input data for the response page.
  */
 function showResponsePage($data) {
-    beginDocument();
-    showHeadSection($data);
-    showBodySection($data);
-    endDocument();
-}
+    $view = NULL;
+    echo "hoi";
 
-/** Begin the HTML document. */
-function beginDocument() {
-    echo '
-    <!DOCTYPE html>
-    <html>';
-}
-
-/**
- * Display the head section of the HTML document.
- *
- * @param array $data An array containing input data for the response page.
- */
-function showHeadSection($data) {
-    echo '    <head>' . PHP_EOL;
-    echo '<link rel="stylesheet" href="CSS/style.css">';
-    showTitle($data);
-    echo '    </head>' . PHP_EOL;
-}
-
-/**
- * Display the title of the HTML document.
- *
- * @param array $data An array containing input data for the response page.
- */
-function showTitle($data) {
-    echo '<title>';
-        switch ($data['page']) {
-            case 'home':
-                require_once('home.php');
-                showHomeTitle();
-                break;
-            case 'about':
-                require_once('about.php');
-                showAboutTitle();
-                break;
-            case 'webshop':
-                require_once('webshop.php');
-                showWebshopTitle();
-                break;
-            case 'topfive':
-                require_once('topfive.php');
-                showTopFiveTitle();
-                break; 
-            case 'productpage':
-                require_once('productpage.php');
-                showProductPageTitle($data);
-                break;
-            case 'shoppingcart':
-            case 'ordersucces':
-                require_once('shoppingcart.php');
-                showShoppingCartTitle();
-                break;          
-            case 'contact':
-            case 'thanks':
-                require_once('contact.php');
-                showContactTitle();
-                break;
-            case 'register':
-                require_once('register.php');
-                showRegisterTitle();
-                break;
-            case 'login':
-                require_once('login.php');
-                showLoginTitle();
-                break;
-            case 'settings':
-                require_once('settings.php');
-                showSettingsTitle();
-                break;        
-            default:
-                require_once('error.php');
-                showErrorTitle();
-                break;
-        }
-    echo '-ProtoWebsite</title>';
-}
-
-/**
- * Display the body section of the HTML document.
- *
- * @param array $data An array containing input data for the response page.
- */
-function showBodySection($data) { 
-    echo '<body>' . PHP_EOL;
-    echo '  <div class="container">' . PHP_EOL; 
-    showHeader($data); 
-    showMenu(); 
-    if (isset($data['genericErr'])) { echo '<span class="error">' . $data['genericErr'] . '</span>'; }
-    showContent($data); 
-    showFooter(); 
-    echo '  </div>' . PHP_EOL;         
-    echo '</body>' . PHP_EOL;  
-} 
-
-/** End the HTML document. */
-function endDocument() {
-    echo '</html>';
-}
-
-/**
- * Display the header section of the HTML document.
- *
- * @param array $data An array containing input data for the response page.
- */
-function showHeader($data) {
-    echo '<header>' . PHP_EOL;
-    echo '  <h1>';
     switch ($data['page']) {
         case 'home':
-            showHomeHeader();
+            require_once("views/home_doc.php");
+            $view = new HomeDoc($data);
             break;
+    
         case 'about':
-            showAboutHeader();
+            require_once("views/about_doc.php");
+            $view = new AboutDoc($data);
             break;
+    
         case 'webshop':
-            showWebshopHeader();
-            break; 
+            require_once("views/webshop_doc.php");
+            $view = new WebshopDoc($data);
+            break;
+    
         case 'topfive':
-            showTopFiveHeader();
-            break; 
-        case 'productpage':
-            showProductPageHeader();
-            break;       
-        case 'shoppingcart':
-        case 'ordersucces':
-            showShoppingCartHeader();
-            break;  
-        case 'contact':
-        case 'thanks':
-            showContactHeader();
+            require_once("views/topfive_doc.php");
+            $view = new TopFiveDoc($data);
             break;
+    
         case 'register':
-            showRegisterHeader();
+            require_once("views/register_doc.php");
+            $view = new RegisterDoc($data);
             break;
-        case 'login':
-            showLoginHeader();
-            break;
-        case 'settings':
-            showSettingsHeader();
-            break;       
-        default:
-            showErrorHeader();
-            break;
-    }
-    echo '  </h1>';
-    echo '</header>' . PHP_EOL;
-}
-
-/** Display the menu section of the HTML document. */
-function showMenu() { 
-    echo '<nav>';  
-    if(isUserLoggedIn()) {
-        echo '<ul class="uppernav">';
-        showMenuItem("settings", "Account Settings");
-        showMenuItem("logout", "Logout: " . getLoggedInUserName());
-        showMenuItem("shoppingcart", "Shopping Cart");
-        echo '</ul>';
-    }
-    echo '<ul class="lowernav">';
-    showMenuItem("home", "HOME"); 
-    echo '|';
-    showMenuItem("about", "ABOUT");
-    echo '|'; 
-    showMenuItem("webshop", "WEBSHOP");
-    echo '|'; 
-    showMenuItem("topfive", "TOP 5");
-    echo '|';
-    showMenuItem("contact", "CONTACT");
-    if(!isUserLoggedIn()) {
-        echo '|'; 
-        showMenuItem("register", "REGISTER"); 
-        echo '|';
-        showMenuItem("login", "LOGIN");
-    } 
-    echo '
-        </ul>  
-    </nav>'; 
-} 
-
-/**
- * Display a menu item with a link and text.
- *
- * @param string $link The link to the page.
- * @param string $text The text to display for the menu item.
- */
-function showMenuItem($link, $text) {
-        echo '<li><a href="index.php?page=' . $link . '">' . $text . '</a></li>';
-}
-
-/**
- * Display the content section of the HTML document.
- *
- * @param array $data An array containing input data for the response page.
- */
-function showContent($data) {
-    echo '<div class="content">' . PHP_EOL;
-    switch ($data['page']) {
-        case 'home':
-            showHomeContent();
-            break;
-        case 'about':
-            showAboutContent();
-            break;
-        case 'webshop':
-            showWebshopContent($data);
-            break; 
-        case 'topfive':
-            showTopFiveContent($data);
-            break; 
+    
         case 'productpage':
-            showProductPageContent($data);
-            break; 
-        case 'shoppingcart':
-            showShoppingCartContent($data);
+            require_once("views/productpage_doc.php");
+            $view = new ProductPageDoc($data);
             break;
-        case 'emptyshoppingcart':
-            showEmptyShoppingCart();
-            break;
-        case 'ordersucces':
-            showOrderSucces();
-            break;
+
         case 'contact':
-            showContactForm($data);
-            break; 
-        case 'thanks':
-            showContactThanks($data);
+            require_once("views/contact_doc.php");
+            $view = new ContactDoc($data);
             break;
-        case 'register':
-            showRegisterForm($data);
-            break;
+    
         case 'login':
-            showLoginForm($data);
+            require_once("views/login_doc.php");
+            $view = new LoginDoc($data);
             break;
-        case 'settings':
-            showSettingsForm($data);
+    
+        case 'accountsettings':
+            require_once("views/accountsettings_doc.php");
+            $view = new AccountSettingsDoc($data);
             break;
+        
         default:
-            showErrorContent();
+            require_once("views/error_doc.php");
+            $view = new ErrorDoc($data);
             break;
     }
-    echo '</div>' . PHP_EOL;
+    $view->show();
 }
-
-/** Display the footer section of the HTML document. */
-function showFooter() {
-    echo '
-    <footer>
-        <p>&copy; 2023 Jules Corbijn Bulsink</p>
-    </footer>';
-}
-
-?>  
