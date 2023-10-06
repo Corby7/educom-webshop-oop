@@ -1,23 +1,6 @@
 <?php
 require('mysqlconnect.php');
 
-/**
- * Get the appropriate salutation based on gender.
- *
- * @param string $gender The gender of the person ('male' or 'female').
- * @return string|null The salutation ('meneer' or 'mevrouw') or null if gender is not recognized.
- */
-function getSalutation($gender) {
-    switch ($gender) {
-        case 'male':
-            return 'meneer';
-        case 'female':
-            return 'mevrouw';
-        default:
-            return;
-    }
-}
-
 /** Authentication result indicating success. */
 define("RESULT_OK", 0);
 /** Authentication result indicating an unknown user. */
