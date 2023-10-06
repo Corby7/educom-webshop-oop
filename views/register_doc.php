@@ -10,13 +10,13 @@ class RegisterDoc extends FormsDoc {
 
     protected function showContent() {
         $this->showFormStart(true);
-        $this->showFormField('fname', 'Voornaam:', 'text', $data);
-        $this->showFormField('lname', 'Achternaam:', 'text', $data);
-        $this->showFormField('email', 'E-mailadres:', 'email', $data);
-        $this->showFormField('pass', 'Wachtwoord:', 'password', $data);
-        $this->showFormField('repeatpass', 'Herhaal wachtwoord:', 'password', $data);
+        $this->showFormField('fname', 'Voornaam:', 'text');
+        $this->showFormField('lname', 'Achternaam:', 'text');
+        $this->showFormField('email', 'E-mailadres:', 'email');
+        $this->showFormField('pass', 'Wachtwoord:', 'password');
+        $this->showFormField('repeatpass', 'Herhaal wachtwoord:', 'password');
         $this->showFormEnd('register', 'verstuur');
-    
+
     }
 
 
