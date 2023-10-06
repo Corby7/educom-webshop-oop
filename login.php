@@ -15,31 +15,12 @@ function showLoginHeader() {
  * @param array $data An array containing input data for the response page.
 */
 function showLoginForm($data) {
-    extract($data);
-
-    echo '
-    <form method="post" action="index.php">
-        <p><span class="error"><strong>* Vereist veld</strong></span></p>
-        <ul class="flex-outer">
-
-            <li>
-                <label for="email">E-mailadres:</label>
-                <input type="email" id="email" name="email" value="' . $email . '">
-                <span class="error">* ' . $emailErr . $emailunknownErr . '</span>
-            </li>
-
-            <li>
-                <label for="pass">Wachtwoord:</label>
-                <input type="password" id="pass" name="pass" value="' . $pass . '">
-                <span class="error">* ' . $passErr . $wrongpassErr . '</span>
-            </li>
-
-            <li>
-            <button type="submit" name="page" value="login">Verstuur</button>
-            </li>
-
-        </ul>
-    </form>';
+    require_once('formcreator.php');
+    
+    showFormStart(true);
+    showFormField('email', 'E-mailadres:', 'email', $data);
+    showFormField('pass', 'Wachtwoord:', 'password', $data);
+    showFormEnd('login', 'Inloggen');
 }
 
 ?>

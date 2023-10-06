@@ -1,5 +1,8 @@
 <?php
 
+    define("GENDERS", array("male"=>"Dhr.", "female"=>"Mvr.", "unspecified" => "Anders"));
+    define("COMM_PREFS", array("email" => "E-Mail", "phone" => "Telefoon"));
+
 /** Display the title for the contact page. */
 function showContactTitle() {
     echo 'ProtoWebsite';
@@ -19,7 +22,7 @@ function showContactThanks($data) {
     extract($data);
 
     echo '
-    <h2>Beste ' . getSalutation($gender) . ' ' . $fname . ' ' . $lname . ', bedankt voor het invullen van uw gegevens!</h2>
+    <h2>Beste ' . GENDERS[$gender] . ' ' . $fname . ' ' . $lname . ', bedankt voor het invullen van uw gegevens!</h2>
     <h3>Ik zal zo snel mogelijk contact met u opnemen. Ter bevestiging uw informatie:</h3>
     <ul class="submitted_userdata">
         <li><strong>E-mailadres: </strong>' . $email . '</li>
@@ -34,10 +37,7 @@ function showContactThanks($data) {
  * @param array $data An array containing input data for the response page.
 */
 function showContactForm($data) {
-    define("GENDERS", array("male"=>"Dhr.", "female"=>"Mvr.", "unspecified" => "Anders"));
-    define("COMM_PREFS", array("email" => "E-Mail", "phone" => "Telefoon"));
-
-    require('formcreator.php');
+    require_once('formcreator.php');
 
     showFormStart(true);
     showFormField('gender', 'Aanhef:', 'select', $data, GENDERS);

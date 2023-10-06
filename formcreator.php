@@ -70,21 +70,30 @@ function showFormField($fieldName, $label, $type, $data, $options = NULL, $optio
             break;
     }
 
-    if (!$optional) {
-        echo '
-        <span class="error">* ' . $data[$fieldName . 'Err'] . '</span>';
+    if (!$optional && isset($data[$fieldName . 'Err']) && !empty($data[$fieldName . 'Err'])) {
+        echo '<span class="error">* ' . $data[$fieldName . 'Err'] . '</span>';
     }
 
-    if (!empty($extraErrors)) {
-        foreach ($extraErrors as $error) {
-            echo '
-            <span class="error">* ' . $error . '</span>';
+    if (!$optional) {
+        $errorMappings = [
+            'email' => ['emailknownErr', 'emailunknownErr'],
+            'repeatpass' => ['passcheckErr'],
+            'pass' => ['wrongpassErr', 'oldvsnewpassErr'],
+        ];
+    
+        if (isset($errorMappings[$fieldName])) {
+            foreach ($errorMappings[$fieldName] as $errorKey) {
+                if (isset($data[$errorKey]) && !empty($data[$errorKey])) {
+                    echo '<span class="error">* ' . $data[$errorKey] . '</span>';
+                }
+            }
         }
     }
 
     echo '    
     </li>';
 }
+
 
 function showFormEnd($page, $submitButtonText) {
     echo '
