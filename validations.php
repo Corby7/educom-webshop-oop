@@ -66,7 +66,7 @@ function initializeFormData($formType) {
             );
             break;
 
-        case 'settings':
+        case 'accountsettings':
             $data = array(
                 'pass' => '',
                 'passErr' => '',
