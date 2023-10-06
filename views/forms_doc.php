@@ -13,11 +13,14 @@ abstract class FormsDoc extends BasicDoc {
             echo'
             <ul class="flex-outer">';
     }
-    
-    protected function showFormField($fieldName, $label, $type, $data, $options = NULL, $optional = false) {
-    
+
+    protected function showFormField($fieldName, $label, $type, $options = NULL, $optional = false) {
+        $data = $this->data;
+
         echo '
         <li>';
+
+    
     
         switch($type) {
             case 'text':
@@ -77,14 +80,14 @@ abstract class FormsDoc extends BasicDoc {
         }
     
         if (!$optional) {
-            $errorMappings = [
+            $extraErrors = [
                 'email' => ['emailknownErr', 'emailunknownErr'],
                 'repeatpass' => ['passcheckErr'],
                 'pass' => ['wrongpassErr', 'oldvsnewpassErr'],
             ];
         
-            if (isset($errorMappings[$fieldName])) {
-                foreach ($errorMappings[$fieldName] as $errorKey) {
+            if (isset($extraErrors[$fieldName])) {
+                foreach ($extraErrors[$fieldName] as $errorKey) {
                     if (isset($data[$errorKey]) && !empty($data[$errorKey])) {
                         echo '<span class="error">* ' . $data[$errorKey] . '</span>';
                     }
@@ -95,7 +98,14 @@ abstract class FormsDoc extends BasicDoc {
         echo '    
         </li>';
     }
-    
+
+    protected function showSuccesMsg() {
+        $data = $this->data;
+        
+        if (isset($data['passwordUpdated']) && !empty($data['passwordUpdated'])) {
+            echo '<span class="success">' . $data['passwordUpdated'] . '</span>';
+        }
+    }
     
     protected function showFormEnd($page, $submitButtonText) {
         echo '
@@ -105,6 +115,7 @@ abstract class FormsDoc extends BasicDoc {
         </ul>
     </form>';
     }
+    
 }
 
 ?>
