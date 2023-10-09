@@ -85,7 +85,7 @@ function processRequest($page) {
             case 'contact':
                 $data = validateContactForm($data);
                 if($data['valid']) {
-                    $page = "thanks";
+                    $page = "contactthanks";
                 }
                 break;
 
@@ -130,17 +130,12 @@ function processRequest($page) {
 
             case 'shoppingcart':
                 require_once('userservice.php');
-                handleActions();
+                if (handleActions()) {
+                    $page = 'ordersucces';
+                };
                 $data['products'] = populateCart();
                 break;
             
-            case 'checkout':
-                require_once('userservice.php');
-                if (makeOrder()) {
-                    $_SESSION['shoppingcart'] = array();
-                    $page = 'ordersucces';
-                }
-                break;
         }
 
         $data['page'] = $page;
@@ -207,6 +202,13 @@ function handleActions() {
             $productid = getPostVar("id");
             removeFromCart($productid);
             break;
+        case 'checkout':
+            require_once('userservice.php');
+            if (makeOrder()) {
+                $_SESSION['shoppingcart'] = array();
+                return true;
+            }
+            break;
     }
 }   
 
@@ -254,6 +256,11 @@ function showResponsePage($data) {
             require_once("views/contact_doc.php");
             $view = new ContactDoc($data);
             break;
+
+        case 'contactthanks':
+            require_once("views/contactthanks_doc.php");
+            $view = new ContactThanksDoc($data);
+            break;
     
         case 'login':
             require_once("views/login_doc.php");
@@ -263,6 +270,16 @@ function showResponsePage($data) {
         case 'accountsettings':
             require_once("views/accountsettings_doc.php");
             $view = new AccountSettingsDoc($data);
+            break;
+
+        case 'shoppingcart':
+            require_once("views/shoppingcart_doc.php");
+            $view = new ShoppingCartDoc($data);
+            break;
+
+        case 'ordersucces':
+            require_once("views/ordersucces_doc.php");
+            $view = new OrderSuccesDoc($data);
             break;
         
         default:
