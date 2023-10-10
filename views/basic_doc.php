@@ -4,15 +4,16 @@ include_once "html_doc.php";
 
 class BasicDoc extends HtmlDoc {
 
-    protected $data;
+    protected $model;
 
     public function __construct($myData) {
-        $this->data = $myData;
+        $this->model = $myData;
+        //var_dump($this->model->menu);
     }
 
     private function showTitle() {
         echo
-        '<title>' . $this->data['page'] . '</title>';
+        '<title>' . $this->model->page . '</title>';
     }
 
     private function showCSSLink() {
@@ -23,32 +24,19 @@ class BasicDoc extends HtmlDoc {
     protected function showHeader() {}
 
     private function showMenu() {
-        function showMenuItem($link, $text) {
-            echo '<li><a href="index.php?page=' . $link . '">' . $text . '</a></li>';
-        }
-
         echo
-        '<nav>';  
-        if(isUserLoggedIn()) {
-            echo '<ul class="uppernav">';
-            showMenuItem("accountsettings", "Account Settings");
-            showMenuItem("logout", "Logout: " . getLoggedInUserName());
-            showMenuItem("shoppingcart", "Shopping Cart");
-            echo '</ul>';
-        }
-        echo '<ul class="lowernav">';
-        showMenuItem("home", "HOME"); 
-        showMenuItem("about", "ABOUT");
-        showMenuItem("webshop", "WEBSHOP");
-        showMenuItem("topfive", "TOP 5");
-        showMenuItem("contact", "CONTACT");
-        if(!isUserLoggedIn()) { 
-            showMenuItem("register", "REGISTER"); 
-            showMenuItem("login", "LOGIN");
-        } 
-        echo '
+        '<nav> 
+            <ul class="lowernav">'; 
+            foreach ($this->model->menu as $key => $menuItem) {
+                $this->showMenuItem($menuItem->getLink(), $menuItem->getText());
+            }
+            echo '
             </ul>  
         </nav>';
+    }
+
+    private function showMenuItem($link, $text) {
+        echo '<li><a href="index.php?page=' . $link . '">' . $text . '</a></li>';
     }
 
     protected function showContent() {}
