@@ -7,7 +7,7 @@ class PageModel {
     public $page;
     protected $isPost = false;
     public $menu;
-    public $errors = array();
+    public $errors = array(); //deze word momenteel nog niet gebruikt hoe ga ik dat doen?
     public $genericErr = "";
     protected $sessionManager;
     //....
