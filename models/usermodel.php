@@ -125,7 +125,7 @@ class UserModel extends PageModel {
         
         try {
             //require_once('userservice.php');
-            if (!empty($this->email) && doesEmailExist($this->email)) {
+            if (!empty($this->email) && $this->doesEmailExist($this->email)) {
                 $this->emailknownErr = "E-mailadres is reeds bekend";
             }
         } catch (Exception $e) {
@@ -154,6 +154,18 @@ class UserModel extends PageModel {
             $this->name = $this->fname . ' ' . $this->lname;
         }
     }
+
+    private function doesEmailExist($email) {
+        require_once("mysqlconnect.php");
+
+        $user = findUserByEmail($email);
+        return !empty($user);
+    }
+
+    function storeUser($email, $name, $pass) {
+        saveUser($email, $name, $pass);
+        $this->genericErr = "Registratie succesvol";
+    }    
 
     public function validateLogin() {
     
