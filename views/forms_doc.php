@@ -15,7 +15,7 @@ abstract class FormsDoc extends BasicDoc {
     }
 
     protected function showFormField($fieldName, $label, $type, $options = NULL, $optional = false) {
-        $data = $this->data;
+        $data = $this->model;
 
         echo '
         <li>';
