@@ -61,6 +61,8 @@ class BasicDoc extends HtmlDoc {
 
     protected function showBodyContent() {
         $this->showHeader();
+        echo "HIER KIJKEN:";
+        var_dump($_SESSION['shoppingcart']);
         $this->showMenu();
         $this->showGenericErr();
         $this->showContent();
