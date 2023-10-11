@@ -2,9 +2,10 @@
 
 class SessionManager {
 
-    protected function loginUser($username, $useremail) {
+    public function doLoginUser($username, $useremail, $userid) {
         $_SESSION['username'] = $username;
         $_SESSION['useremail'] = $useremail;
+        $_SESSION['userid'] = $userid;
         $_SESSION['shoppingcart'] = array();
     }
 
@@ -20,7 +21,7 @@ class SessionManager {
         return isset($_SESSION['useremail']) ? $_SESSION['useremail'] : '';
     }
 
-    protected function logoutUser() {
+    public function doLogoutUser() {
         session_unset();
         session_destroy(); 
     }
