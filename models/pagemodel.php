@@ -36,7 +36,7 @@ class PageModel {
         }
     }
 
-    protected function setPage($newPage) {
+    public function setPage($newPage) {
         echo "page=$newPage";
         $this->page = $newPage;
     }
@@ -57,12 +57,13 @@ class PageModel {
         $this->menu['webshop'] = new MenuItem('webshop', 'WEBSHOP');
         $this->menu['topfive'] = new MenuItem('topfive', 'TOPFIVE');
         $this->menu['contact'] = new MenuItem('contact', 'CONTACT');
-        $this->menu['register'] = new MenuItem('register', 'REGISTER');
-        $this->menu['login'] = new MenuItem('login', 'LOGIN');
+        if (!$this->sessionManager->isUserLoggedIn()) {
+            $this->menu['register'] = new MenuItem('register', 'REGISTER');
+            $this->menu['login'] = new MenuItem('login', 'LOGIN');
+        }
         if ($this->sessionManager->isUserLoggedIn()) {
             $this->menu['accountsettings'] = new MenuItem('accountsettings', 'ACCOUNT SETTINGS');
-            $this->menu['logout'] = new MenuItem('logout', 'LOGOUT', 
-                $this->sessionManager->getLoggedInUser()['name']);
+            $this->menu['logout'] = new MenuItem('logout', 'LOGOUT: ' . $this->sessionManager->getLoggedInUserName());
         }
         //var_dump($this->menu);
     }
