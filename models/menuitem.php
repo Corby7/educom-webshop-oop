@@ -11,10 +11,10 @@ class MenuItem {
 
     public function getLink() {
         return $this->link;
-      }
+    }
     
     public function getText() {
-    return $this->text;
+        return $this->text;
     }
 }
 
