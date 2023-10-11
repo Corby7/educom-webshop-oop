@@ -9,6 +9,11 @@ define("RESULT_UNKNOWN_USER", -1);
 define("RESULT_WRONG_PASSWORD", -2);
 
 class UserModel extends PageModel {
+    
+    public function __construct($pageModel) {
+        PARENT::__construct($pageModel);
+    }
+
     private $userId = 0;
     public $valid = false;
 
@@ -47,10 +52,6 @@ class UserModel extends PageModel {
     // Fields for 'accountsettings'
     public $newpass = "";
     public $oldvsnewpassErr = "";
-
-    public function __construct($pageModel) {
-        PARENT::__construct($pageModel);
-    }
 
     public function testInput($data) {
         $data = trim($data);
