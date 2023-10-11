@@ -26,7 +26,7 @@ class SessionManager {
         session_destroy(); 
     }
     
-    protected function getCart() {
+    public function getCart() {
         if (isset($_SESSION['shoppingcart'])) {
             return $_SESSION['shoppingcart'];
         } else {
