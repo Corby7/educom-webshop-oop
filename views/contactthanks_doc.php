@@ -10,16 +10,14 @@ class ContactThanksDoc extends BasicDoc {
     }
 
     protected function showContent() {
-        extract($this->data);
-
         echo '
-        <h2>Beste ' . self::GENDERS[$gender] . ' ' . $fname . ' ' . $lname . ', bedankt voor het invullen van uw gegevens!</h2>
+        <h2>Beste ' . self::GENDERS[$this->model->gender] . ' ' . $this->model->fname . ' ' . $this->model->lname . ', bedankt voor het invullen van uw gegevens!</h2>
         <h3>Ik zal zo snel mogelijk contact met u opnemen. Ter bevestiging uw informatie:</h3>
         <ul class="submitted_userdata">
-            <li><strong>E-mailadres: </strong>' . $email . '</li>
-            <li><strong>Telefoonnummer: </strong>' . $phone . '</li>
-            <li><strong>Communicatievoorkeur: </strong>' . $preference . '</li>
-            <li><strong>Bericht: </strong>' . $message . '</li>
+            <li><strong>E-mailadres: </strong>' . $this->model->email . '</li>
+            <li><strong>Telefoonnummer: </strong>' . $this->model->phone . '</li>
+            <li><strong>Communicatievoorkeur: </strong>' . $this->model->preference . '</li>
+            <li><strong>Bericht: </strong>' . $this->model->message . '</li>
         </ul>';
     }
 }
