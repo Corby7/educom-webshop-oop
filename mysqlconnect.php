@@ -192,10 +192,11 @@ function getTopFiveProducts() {
         FROM orderlines
         LEFT JOIN orders ON orderlines.order_id = orders.id 
         LEFT JOIN products ON orderlines.product_id = products.id
-        WHERE orders.date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+        WHERE orders.date > DATE_SUB(NOW(), INTERVAL 2 WEEK)
         GROUP BY orderlines.product_id 
         ORDER BY SUM(orderlines.amount) 
         DESC LIMIT 5";
+        //change 2 week back to 1 week later!!
         $result = mysqli_query($conn, $sql);
 
         if (!$result) {
