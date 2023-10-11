@@ -1,6 +1,6 @@
 <?php
-include_once "models/pagemodel.php";
 include_once "models/usermodel.php";
+
 
 class PageController {
     private $model;
@@ -24,6 +24,28 @@ class PageController {
     private function processRequest() {
         switch($this->model->page) {
 
+            case 'contact':
+                $this->model = new UserModel($this->model);
+                $this->model->validateContact();
+                if ($this->model->valid) {
+                    $this->model->setPage('contactthanks');
+                }
+                break;
+            
+            case 'register':
+                $this->model = new UserModel($this->model);
+                $this->model->validateRegister();
+                if ($this->model->valid) {
+                    try {
+                        storeUser($this->model->name, $this->model->email, $this->model->pass);
+                        $this->model->setPage('login');
+                    } catch (Exception $e) {
+                        logError("Store user failed: " . $e->getMessage());
+                        $genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
+                    }
+                }
+                break;
+            
             case 'login':
                 $this->model = new UserModel($this->model);
                 $this->model->validateLogin();
@@ -32,13 +54,26 @@ class PageController {
                     $this->model->setPage('home');
                 }
                 break;
-            
-            case 'contact':
+
+            case 'accountsettings':
                 $this->model = new UserModel($this->model);
-                $this->model->validateContact();
+                $this->model->validateAccountSettings();
                 if ($this->model->valid) {
-                    $this->model->setPage('contactthanks');
+                    try {
+                        $this->model->updatePasswordbyEmail();
+                    } catch (Exception $e) {
+                        logError("Update password failed: " . $e->getMessage());
+                        $genericErr = "Wachtwoord bijwerken niet mogelijk";
+                    }
                 }
+                break;
+            
+            case 'logout':
+                $this->model = new UserModel($this->model);
+                $this->model->doLogoutUser();
+                $this->model->setPage('home');
+                break;
+
             //volgt meer code......
         }
     }
@@ -74,6 +109,11 @@ class PageController {
                 require_once("views/contact_doc.php");
                 $view = new ContactDoc($this->model);
                 break;
+
+            case 'contactthanks':
+                require_once("views/contactthanks_doc.php");
+                $view = new ContactThanksDoc($this->model);
+                break;
             
             case 'register':
                 require_once("views/register_doc.php");
@@ -84,6 +124,12 @@ class PageController {
                 require_once("views/login_doc.php");
                 $view = new LoginDoc($this->model);
                 break;
+            
+            case 'accountsettings':
+                require_once("views/accountsettings_doc.php");
+                $view = new AccountSettingsDoc($this->model);
+                break;
+
             //volgt meer code.....
         }
     
