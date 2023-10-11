@@ -1,5 +1,6 @@
 <?php
 include_once "models/usermodel.php";
+include_once "models/shopmodel.php";
 
 
 class PageController {
@@ -31,7 +32,46 @@ class PageController {
                     $this->model->setPage('contactthanks');
                 }
                 break;
-            
+
+            case 'webshop':
+                $this->model = new ShopModel($this->model);
+
+                try {
+                    require_once("mysqlconnect.php");
+                    $this->model->products = $this->model->getWebshopData();
+                } catch (Exception $e) {
+                    logError("Get all products failed: " . $e->getMessage());
+                }
+                break;
+
+            case 'topfive':
+                $this->model = new ShopModel($this->model);
+
+                try {
+                    require_once("mysqlconnect.php");
+                    $this->model->products = $this->model->getTopFiveData();
+                } catch (Exception $e) {
+                    logError("Get top five products failed: " . $e->getMessage());
+                }
+                break;
+
+            case 'productpage':
+                $this->model = new ShopModel($this->model);
+                $productid = $this->model->getProductIdFromUrl();
+
+                try {
+                    require_once("mysqlconnect.php");
+                    $this->model->product = $this->model->getProductPageData($productid);
+                } catch (Exception $e) {
+                    logError("Get product by id failed: " . $e->getMessage());
+                }
+                break;
+
+            case 'shoppingcart':
+                $this->model = new ShopModel($this->model);
+                $this->model->products = $this->model->populateCart();
+                break;
+
             case 'register':
                 $this->model = new UserModel($this->model);
                 $this->model->validateRegister();
@@ -81,7 +121,6 @@ class PageController {
     //to client: presentatielaag
     private function showResponse() {
         $this->model->createMenu();
-        echo $this->model->page;
 
         switch($this->model->page) {
 
@@ -94,6 +133,16 @@ class PageController {
                 require_once("views/about_doc.php");
                 $view = new AboutDoc($this->model);
                 break;
+
+            case 'contact':
+                require_once("views/contact_doc.php");
+                $view = new ContactDoc($this->model);
+                break;
+            
+            case 'contactthanks':
+                require_once("views/contactthanks_doc.php");
+                $view = new ContactThanksDoc($this->model);
+                break;
             
             case 'webshop':
                 require_once("views/webshop_doc.php");
@@ -105,16 +154,17 @@ class PageController {
                 $view = new TopFiveDoc($this->model);
                 break;
 
-            case 'contact':
-                require_once("views/contact_doc.php");
-                $view = new ContactDoc($this->model);
-                break;
-
-            case 'contactthanks':
-                require_once("views/contactthanks_doc.php");
-                $view = new ContactThanksDoc($this->model);
+            case 'productpage':
+                require_once("views/productpage_doc.php");
+                $view = new ProductPageDoc($this->model);
                 break;
             
+            case 'shoppingcart':
+                require_once("views/shoppingcart_doc.php");
+                $view = new ShoppingCartDoc($this->model);
+                var_dump($this->model);
+                break;
+
             case 'register':
                 require_once("views/register_doc.php");
                 $view = new RegisterDoc($this->model);
