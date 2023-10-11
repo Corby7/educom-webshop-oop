@@ -37,11 +37,11 @@ class PageController {
                 $this->model->validateRegister();
                 if ($this->model->valid) {
                     try {
-                        storeUser($this->model->name, $this->model->email, $this->model->pass);
+                        $this->model->storeUser($this->model->name, $this->model->email, $this->model->pass);
                         $this->model->setPage('login');
                     } catch (Exception $e) {
                         logError("Store user failed: " . $e->getMessage());
-                        $genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
+                        $this->model->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
                     }
                 }
                 break;
@@ -63,7 +63,7 @@ class PageController {
                         $this->model->updatePasswordbyEmail();
                     } catch (Exception $e) {
                         logError("Update password failed: " . $e->getMessage());
-                        $genericErr = "Wachtwoord bijwerken niet mogelijk";
+                        $this->model->genericErr = "Wachtwoord bijwerken niet mogelijk";
                     }
                 }
                 break;
