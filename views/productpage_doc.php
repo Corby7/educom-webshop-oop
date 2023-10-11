@@ -9,7 +9,7 @@ class ProductPageDoc extends ProductDoc {
     }
 
     protected function showContent() {
-        extract($this->data['product']);
+        extract($this->model->product);
 
         echo '
         <ul class="product">
@@ -20,7 +20,7 @@ class ProductPageDoc extends ProductDoc {
                 <li class="productname">' . $name . '</li>
                 <li class="price">€' . $price . '</li>
                 <li class="description">' . $description . '</li>';
-                if(isUserLoggedIn()) {
+                if($this->model->isUserLoggedIn()) {
                     echo '<li>';
                         $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $id);
                     echo '</li>';

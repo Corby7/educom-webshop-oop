@@ -12,7 +12,7 @@ class TopFiveDoc extends ProductDoc {
         $ranking = 0;
         echo '<ul class="topfiveproducts">';
     
-        foreach ($this->data['products'] as $product) {
+        foreach ($this->model->products as $product) {
             $ranking += 1;
             extract($product);
             
@@ -28,7 +28,7 @@ class TopFiveDoc extends ProductDoc {
                                 <li class="price">€' . $price . '</li>
                             </div>
                             <div class="productcardright">';
-                            if(isUserLoggedIn()) {
+                            if($this->model->isUserLoggedIn()) {
                                 echo '<li>';
                                     $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $id);
                                 echo '</li>';

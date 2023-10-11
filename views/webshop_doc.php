@@ -11,7 +11,7 @@ class WebshopDoc extends ProductDoc {
     protected function showContent() {
         echo '<ul class="products">';
 
-    foreach ($this->data['products'] as $product) {
+    foreach ($this->model->products as $product) {
         extract($product);
         
         echo '
@@ -25,7 +25,7 @@ class WebshopDoc extends ProductDoc {
                         <li class="price">€' . $price . '</li>
                     </div>
                     <div class="productcardright">';
-                    if(isUserLoggedIn()) {
+                    if($this->model->isUserLoggedIn()) {
                         echo '<li>';
                            $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $id);
                         echo '</li>';
