@@ -39,6 +39,12 @@ class BasicDoc extends HtmlDoc {
         echo '<li><a href="index.php?page=' . $link . '">' . $text . '</a></li>';
     }
 
+    protected function showGenericErr() {
+        if (isset($this->model->genericErr) && !empty($this->model->genericErr)) {
+            echo '<div class="error">' . $this->model->genericErr . '</div>';
+        }
+    }
+
     protected function showContent() {}
 
     private function showFooter() {
@@ -56,6 +62,7 @@ class BasicDoc extends HtmlDoc {
     protected function showBodyContent() {
         $this->showHeader();
         $this->showMenu();
+        $this->showGenericErr();
         $this->showContent();
         $this->showFooter();
     }
