@@ -1,33 +1,33 @@
 <?php
 require('mysqlconnect.php');
 
-/** Authentication result indicating success. */
-define("RESULT_OK", 0);
-/** Authentication result indicating an unknown user. */
-define("RESULT_UNKNOWN_USER", -1);
-/** Authentication result indicating a wrong password. */
-define("RESULT_WRONG_PASSWORD", -2);
+// /** Authentication result indicating success. */
+// define("RESULT_OK", 0);
+// /** Authentication result indicating an unknown user. */
+// define("RESULT_UNKNOWN_USER", -1);
+// /** Authentication result indicating a wrong password. */
+// define("RESULT_WRONG_PASSWORD", -2);
 
-/**
- * Authenticate a user based on email and password.
- *
- * @param string $email The user's email address.
- * @param string $pass The user's password.
- * @return array An array containing the authentication result and user information if successful.
- */
-function authenticateUser($email, $pass) {
-    $user = findUserByEmail($email);
+// /**
+//  * Authenticate a user based on email and password.
+//  *
+//  * @param string $email The user's email address.
+//  * @param string $pass The user's password.
+//  * @return array An array containing the authentication result and user information if successful.
+//  */
+// function authenticateUser($email, $pass) {
+//     $user = findUserByEmail($email);
     
-    if(empty($user)) {
-        return ['result' => RESULT_UNKNOWN_USER];
-    }
+//     if(empty($user)) {
+//         return ['result' => RESULT_UNKNOWN_USER];
+//     }
 
-    if ($user['pass'] !== $pass) {
-        return ['result' => RESULT_WRONG_PASSWORD];
-    }
+//     if ($user['pass'] !== $pass) {
+//         return ['result' => RESULT_WRONG_PASSWORD];
+//     }
 
-    return ['result' => RESULT_OK, 'user' => $user];
-}
+//     return ['result' => RESULT_OK, 'user' => $user];
+// }
 
 /**
  * Check if an email exists in the user database.
@@ -35,10 +35,10 @@ function authenticateUser($email, $pass) {
  * @param string $email The email address to check.
  * @return bool True if the email exists, false otherwise.
  */
-function doesEmailExist($email) {
-    $user = findUserByEmail($email);
-    return !empty($user);
-}
+// function doesEmailExist($email) {
+//     $user = findUserByEmail($email);
+//     return !empty($user);
+// }
 
 /**
  * Store a new user in the database.
@@ -47,20 +47,20 @@ function doesEmailExist($email) {
  * @param string $name The user's name.
  * @param string $pass The user's password.
  */
-function storeUser($email, $name, $pass) {
-    saveUser($email, $name, $pass);
-}
+// function storeUser($email, $name, $pass) {
+//     saveUser($email, $name, $pass);
+// }
 
-function updatePasswordByEmail($email, $newpass, $data) {
-    try {
-        if (overwritePassword($email, $newpass)) {
-            $data['passwordUpdated'] = "Wachtwoord succesvol gewijzigd.";
-        }
-        return $data;
-    } catch (Exception $e) {
-        logError("Overwriting password failed: " . $e->getMessage());
-    }
-}
+// function updatePasswordByEmail($email, $newpass, $data) {
+//     try {
+//         if (overwritePassword($email, $newpass)) {
+//             $data['passwordUpdated'] = "Wachtwoord succesvol gewijzigd.";
+//         }
+//         return $data;
+//     } catch (Exception $e) {
+//         logError("Overwriting password failed: " . $e->getMessage());
+//     }
+// }
 
 function populateCart() {
     try {
