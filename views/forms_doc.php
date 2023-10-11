@@ -15,8 +15,6 @@ abstract class FormsDoc extends BasicDoc {
     }
 
     protected function showFormField($fieldName, $label, $type, $options = NULL, $optional = false) {
-        $data = $this->model;
-
         echo '
         <li>';
 
@@ -28,7 +26,7 @@ abstract class FormsDoc extends BasicDoc {
             case 'password':
                 echo '
                 <label for="' . $fieldName . '">' . $label . '</label>
-                <input type="' . $type . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $data[$fieldName] . '">';
+                <input type="' . $type . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $this->model->{$fieldName} . '">';
                 break;
     
             case 'select':
@@ -39,7 +37,7 @@ abstract class FormsDoc extends BasicDoc {
                     if (is_array($options)) {
                         foreach ($options as $key => $label) {
                             echo '
-                            <option value="' . $key . '"' . ($data[$fieldName] === $key ? "selected" : "") . '>' . $label . '</option>';
+                            <option value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "selected" : "") . '>' . $label . '</option>';
                         }
                     }
                 echo '
@@ -54,7 +52,7 @@ abstract class FormsDoc extends BasicDoc {
                     foreach ($options as $key => $label) {
                     echo '
                     <li>
-                            <input type="' . $type . '" id="' . $key . '" name="' . $fieldName . '" value="' . $key . '"' . ($data[$fieldName] === $key ? "checked" : "") . '>
+                            <input type="' . $type . '" id="' . $key . '" name="' . $fieldName . '" value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "checked" : "") . '>
                             <label for="' . $key . '">' . $label . '</label>
                         </li>';
                     }
@@ -71,13 +69,14 @@ abstract class FormsDoc extends BasicDoc {
                     }
                 }
                 echo '
-                >' . $data[$fieldName] . '</textarea>';
+                >' . $this->model->{$fieldName} . '</textarea>';
                 break;
         }
     
-        if (!$optional && isset($data[$fieldName . 'Err']) && !empty($data[$fieldName . 'Err'])) {
-            echo '<span class="error">* ' . $data[$fieldName . 'Err'] . '</span>';
+        if (!$optional && isset($this->model->{$fieldName . 'Err'}) && !empty($this->model->{$fieldName . 'Err'})) {
+            echo '<span class="error">* ' . $this->model->{$fieldName . 'Err'} . '</span>';
         }
+
     
         if (!$optional) {
             $extraErrors = [
@@ -88,8 +87,8 @@ abstract class FormsDoc extends BasicDoc {
         
             if (isset($extraErrors[$fieldName])) {
                 foreach ($extraErrors[$fieldName] as $errorKey) {
-                    if (isset($data[$errorKey]) && !empty($data[$errorKey])) {
-                        echo '<span class="error">* ' . $data[$errorKey] . '</span>';
+                    if (isset($this->model->{$errorKey}) && !empty($this->model->{$errorKey})) {
+                        echo '<span class="error">* ' . $this->model->{$errorKey} . '</span>';
                     }
                 }
             }
@@ -97,14 +96,6 @@ abstract class FormsDoc extends BasicDoc {
     
         echo '    
         </li>';
-    }
-
-    protected function showSuccesMsg() {
-        $data = $this->data;
-        
-        if (isset($data['passwordUpdated']) && !empty($data['passwordUpdated'])) {
-            echo '<span class="success">' . $data['passwordUpdated'] . '</span>';
-        }
     }
     
     protected function showFormEnd($page, $submitButtonText) {
