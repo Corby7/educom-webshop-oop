@@ -17,6 +17,9 @@ abstract class FormsDoc extends BasicDoc {
     protected function showFormField($fieldName, $label, $type, $options = NULL, $optional = false) {
         echo '
         <li>';
+            if ($type != 'radio') {
+            echo '<label for="' . $fieldName . '">' . $label . '</label>';
+            }
 
     
     
@@ -24,7 +27,6 @@ abstract class FormsDoc extends BasicDoc {
            
             case 'select':
                 echo '
-                <label for="' . $fieldName . '">' . $label . '</label>
                 <select name="' . $fieldName . '" id="' . $fieldName . '">
                     <option disabled selected value> -- maak een keuze -- </option>';
                     if (is_array($options)) {
@@ -54,7 +56,6 @@ abstract class FormsDoc extends BasicDoc {
     
             case 'textarea':
                 echo '
-                <label for="' . $fieldName . '">' . $label . '</label>
                 <textarea id="' . $fieldName . '" name="' . $fieldName . '"';
                 if (is_array($options)) {
                     foreach ($options as $key => $value) {
@@ -67,7 +68,6 @@ abstract class FormsDoc extends BasicDoc {
 
             default:
                 echo '
-                <label for="' . $fieldName . '">' . $label . '</label>
                 <input type="' . $type . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $this->model->{$fieldName} . '">';
                 break;
         
