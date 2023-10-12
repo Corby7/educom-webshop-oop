@@ -27,15 +27,18 @@ class BasicDoc extends HtmlDoc {
         echo
         '<nav> 
             <ul class="lowernav">'; 
-            foreach ($this->model->menu as $key => $menuItem) {
-                $this->showMenuItem($menuItem->getLink(), $menuItem->getText());
+            foreach ($this->model->menu as $menuItem) {
+                $this->showMenuItem($menuItem);
             }
             echo '
             </ul>  
         </nav>';
     }
 
-    private function showMenuItem($link, $text) {
+    private function showMenuItem($menuItem) {
+        $link = $menuItem->getLink();
+        $text = $menuItem->getText();
+
         echo '<li><a href="index.php?page=' . $link . '">' . $text . '</a></li>';
     }
 
@@ -61,8 +64,8 @@ class BasicDoc extends HtmlDoc {
 
     protected function showBodyContent() {
         $this->showHeader();
-        echo "HIER KIJKEN:";
-        var_dump($_SESSION['shoppingcart']);
+        // echo "HIER KIJKEN:";
+        // var_dump($_SESSION['shoppingcart']);
         $this->showMenu();
         $this->showGenericErr();
         $this->showContent();
