@@ -21,14 +21,7 @@ abstract class FormsDoc extends BasicDoc {
     
     
         switch($type) {
-            case 'text':
-            case 'email':
-            case 'password':
-                echo '
-                <label for="' . $fieldName . '">' . $label . '</label>
-                <input type="' . $type . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $this->model->{$fieldName} . '">';
-                break;
-    
+           
             case 'select':
                 echo '
                 <label for="' . $fieldName . '">' . $label . '</label>
@@ -71,6 +64,13 @@ abstract class FormsDoc extends BasicDoc {
                 echo '
                 >' . $this->model->{$fieldName} . '</textarea>';
                 break;
+
+            default:
+                echo '
+                <label for="' . $fieldName . '">' . $label . '</label>
+                <input type="' . $type . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $this->model->{$fieldName} . '">';
+                break;
+        
         }
     
         if (!$optional && isset($this->model->{$fieldName . 'Err'}) && !empty($this->model->{$fieldName . 'Err'})) {
