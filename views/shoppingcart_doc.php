@@ -25,7 +25,7 @@ class ShoppingCartDoc extends ProductDoc {
                     <th>Subtotaal</th>
                 </tr>';
     
-                foreach ($this->data['products']['cartLines'] as $cartline) {
+                foreach ($this->model->cartLines as $cartline) {
                     extract($cartline);
                     
                     echo '
@@ -48,7 +48,7 @@ class ShoppingCartDoc extends ProductDoc {
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>Totaalprijs: €' . number_format(($this->data['products']['total']), 2) . '</th>
+                    <th>Totaalprijs: €' . number_format(($this->model->cartTotal), 2) . '</th>
                 </tr>
             </table>';
             $this->showActionForm('shoppingcart', 'checkout', 'Afrekenen');
