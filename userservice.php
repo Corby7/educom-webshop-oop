@@ -62,43 +62,43 @@ require('mysqlconnect.php');
 //     }
 // }
 
-function populateCart() {
-    try {
-        $cartLines = array();
-        $total = 0; 
+// function populateCart() {
+//     try {
+//         $cartLines = array();
+//         $total = 0; 
 
-        $cart = getCart();
-        if (empty($cart)) {
-            return compact('cartLines', 'total');  
-        }
-        $productids = array_keys($cart);
-        $cartProducts = getProductsByIds($productids);
-        foreach($cart as $productid => $quantity) {
-           $product = $cartProducts[$productid];  
-           extract($product);                       
-           $subtotal = $price * $quantity; 
-           $total += $subtotal;
-           $cartLines[] = compact('id', 'filenameimage', 'name', 'price', 'quantity', 'subtotal');
-        } 
-        return compact('cartLines', 'total');  
-    } catch (Exception $e) {
-        logError("Getting cart products failed: " . $e->getMessage()); 
-        return array('genericErr' => 'door een technische storing kunnen wij uw winkelwagen niet laten zien');
-    }
-}
+//         $cart = getCart();
+//         if (empty($cart)) {
+//             return compact('cartLines', 'total');  
+//         }
+//         $productids = array_keys($cart);
+//         $cartProducts = getProductsByIds($productids);
+//         foreach($cart as $productid => $quantity) {
+//            $product = $cartProducts[$productid];  
+//            extract($product);                       
+//            $subtotal = $price * $quantity; 
+//            $total += $subtotal;
+//            $cartLines[] = compact('id', 'filenameimage', 'name', 'price', 'quantity', 'subtotal');
+//         } 
+//         return compact('cartLines', 'total');  
+//     } catch (Exception $e) {
+//         logError("Getting cart products failed: " . $e->getMessage()); 
+//         return array('genericErr' => 'door een technische storing kunnen wij uw winkelwagen niet laten zien');
+//     }
+// }
 
-function makeOrder() {
-    try {
-        $cart = $_SESSION['shoppingcart'];
-        $email = $_SESSION['useremail'];
-        $useridArray = getUserId($email);
-        $useridString = reset($useridArray);
-        createOrder($useridString, $cart);
-        return true;
-    } catch (Exception $e) {
-        logError("Checkout failed: " . $e->getMessage());
-        return false;
-    }
-}
+// function makeOrder() {
+//     try {
+//         $cart = $_SESSION['shoppingcart'];
+//         $email = $_SESSION['useremail'];
+//         $useridArray = getUserId($email);
+//         $useridString = reset($useridArray);
+//         createOrder($useridString, $cart);
+//         return true;
+//     } catch (Exception $e) {
+//         logError("Checkout failed: " . $e->getMessage());
+//         return false;
+//     }
+// }
 
 ?>
