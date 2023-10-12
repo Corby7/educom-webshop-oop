@@ -34,7 +34,7 @@ class SessionManager {
         }
     }
     
-    protected function addToCart($productId) {
+    public function addToCart($productId) {
         if (array_key_exists($productId, $_SESSION['shoppingcart'])) {
             $_SESSION['shoppingcart'][$productId] += 1;
         } else {
@@ -42,7 +42,7 @@ class SessionManager {
         }
     }
     
-    protected function removeFromCart($productId) {
+    public function removeFromCart($productId) {
         if (array_key_exists($productId, $_SESSION['shoppingcart'])) {
             if ($_SESSION['shoppingcart'][$productId] === 1) {
                 unset($_SESSION['shoppingcart'][$productId]);
