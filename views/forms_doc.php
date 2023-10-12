@@ -45,12 +45,13 @@ abstract class FormsDoc extends BasicDoc {
                 <legend>' . $label . '</legend>';
                 if (is_array($options)) {
                     foreach ($options as $key => $label) {
-                    echo '
-                    <li>
-                            <input type="' . $type . '" id="' . $key . '" name="' . $fieldName . '" value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "checked" : "") . '>
+                        $optionId = $fieldName . '_' . $key;
+                        echo '
+                        <li>
+                            <input type="' . $type . '" id="' . $optionId . '" name="' . $fieldName . '" value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "checked" : "") . '>
                             <label for="' . $key . '">' . $label . '</label>
                         </li>';
-                    }
+                        }
                 }
                 break;
     
