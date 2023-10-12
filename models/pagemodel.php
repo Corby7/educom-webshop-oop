@@ -7,10 +7,8 @@ class PageModel {
     public $page;
     public $isPost = false;
     public $menu;
-    public $errors = array(); //deze word momenteel nog niet gebruikt hoe ga ik dat doen?
     public $genericErr = "";
     protected $sessionManager;
-    //....
 
     public function __construct($copy) {
         if (empty($copy)) {
