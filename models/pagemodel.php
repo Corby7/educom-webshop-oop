@@ -5,7 +5,7 @@ include_once "menuitem.php";
 class PageModel {
 
     public $page;
-    protected $isPost = false;
+    public $isPost = false;
     public $menu;
     public $errors = array(); //deze word momenteel nog niet gebruikt hoe ga ik dat doen?
     public $genericErr = "";
@@ -37,7 +37,6 @@ class PageModel {
     }
 
     public function setPage($newPage) {
-        echo "page=$newPage";
         $this->page = $newPage;
     }
 
@@ -62,10 +61,10 @@ class PageModel {
             $this->menu['login'] = new MenuItem('login', 'LOGIN');
         }
         if ($this->sessionManager->isUserLoggedIn()) {
+            $this->menu['shoppingcart'] = new MenuItem('shoppingcart', 'SHOPPING CART');
             $this->menu['accountsettings'] = new MenuItem('accountsettings', 'ACCOUNT SETTINGS');
             $this->menu['logout'] = new MenuItem('logout', 'LOGOUT: ' . $this->sessionManager->getLoggedInUserName());
         }
-        //var_dump($this->menu);
     }
 }
 
