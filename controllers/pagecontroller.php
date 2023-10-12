@@ -10,6 +10,10 @@ class PageController {
         $this->model = new PageModel(NULL);
     }
 
+    private function logError($message) {
+        echo "LOG TO FILE: " . $message;
+    }
+
     public function handleRequest() {
         $this->getRequest();
         $this->processRequest();
@@ -27,9 +31,11 @@ class PageController {
 
             case 'contact':
                 $this->model = new UserModel($this->model);
-                $this->model->validateContact();
-                if ($this->model->valid) {
-                    $this->model->setPage('contactthanks');
+                if ($this->model->isPost) {
+                    $this->model->validateContact();
+                    if ($this->model->valid) {
+                        $this->model->setPage('contactthanks');
+                    }
                 }
                 break;
 
@@ -69,29 +75,38 @@ class PageController {
 
             case 'shoppingcart':
                 $this->model = new ShopModel($this->model);
-                $this->model->products = $this->model->populateCart();
+                if ($this->model->isPost) {
+                    if ($this->model->handleCartActions()) {
+                        $this->model->setPage('ordersucces');
+                    }
+                } 
+                $this->model->getCartLines();
                 break;
 
             case 'register':
                 $this->model = new UserModel($this->model);
-                $this->model->validateRegister();
-                if ($this->model->valid) {
-                    try {
-                        $this->model->storeUser($this->model->name, $this->model->email, $this->model->pass);
-                        $this->model->setPage('login');
-                    } catch (Exception $e) {
-                        logError("Store user failed: " . $e->getMessage());
-                        $this->model->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
+                if ($this->model->isPost) {
+                    $this->model->validateRegister();
+                    if ($this->model->valid) {
+                        try {
+                            $this->model->storeUser($this->model->name, $this->model->email, $this->model->pass);
+                            $this->model->setPage('login');
+                        } catch (Exception $e) {
+                            logError("Store user failed: " . $e->getMessage());
+                            $this->model->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
+                        }
                     }
                 }
                 break;
             
             case 'login':
                 $this->model = new UserModel($this->model);
-                $this->model->validateLogin();
-                if ($this->model->valid) {
-                    $this->model->doLoginUser();
-                    $this->model->setPage('home');
+                if ($this->model->isPost) {
+                    $this->model->validateLogin();
+                    if ($this->model->valid) {
+                        $this->model->doLoginUser();
+                        $this->model->setPage('home');
+                    }
                 }
                 break;
 
@@ -114,7 +129,6 @@ class PageController {
                 $this->model->setPage('home');
                 break;
 
-            //volgt meer code......
         }
     }
 
@@ -162,7 +176,11 @@ class PageController {
             case 'shoppingcart':
                 require_once("views/shoppingcart_doc.php");
                 $view = new ShoppingCartDoc($this->model);
-                var_dump($this->model);
+                break;
+
+            case 'ordersucces':
+                require_once("views/ordersucces_doc.php");
+                $view = new OrderSuccesDoc($this->model);
                 break;
 
             case 'register':
@@ -180,6 +198,10 @@ class PageController {
                 $view = new AccountSettingsDoc($this->model);
                 break;
 
+            default:
+                require_once("views/error_doc.php");
+                $view = new ErrorDoc($this->model);
+                break;
             //volgt meer code.....
         }
     
