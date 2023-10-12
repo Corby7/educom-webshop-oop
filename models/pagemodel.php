@@ -55,7 +55,7 @@ class PageModel {
         $this->menu['topfive'] = new MenuItem('topfive', 'TOPFIVE');
         $this->menu['contact'] = new MenuItem('contact', 'CONTACT');
         if (!$this->sessionManager->isUserLoggedIn()) {
-            $this->menu['register'] = new MenuItem('register', 'REGISTER');
+            $this->menu['register'] = new MenuItem('register', 'REGISTER', 'nav-link link-body-emphasis active text-black me-auto');
             $this->menu['login'] = new MenuItem('login', 'LOGIN');
         }
         if ($this->sessionManager->isUserLoggedIn()) {
