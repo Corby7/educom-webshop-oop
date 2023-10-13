@@ -51,25 +51,39 @@ class BasicDoc extends HtmlDoc {
         $link = $menuItem->getLink();
         $text = $menuItem->getText();
         $styling = $menuItem->getStyling();
+        $icon = $menuItem->getIcon();
+        $subItems = $menuItem->getSubItems();
 
-        //dit is opzetje voor dropdown
-        // if (count($menuItem->getSubitems()) > 0)
-        // {
+        if (count($subItems) > 0) {
+            echo'
+            <li class="nav-item">
+                <div class="nav-item dropstart">
+                    <a class="nav-link link-body-emphasis px-4 active text-white ' . $styling . '" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown">
+                        <i class="p-0 ' . $icon . '"></i>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">';
+                    
+                    foreach ($subItems as $index => $subItem) {
+                        echo '<li>
+                            <a class="' . $subItem->getStyling() . '" href="index.php?page=' . $subItem->getLink() . '">' . $subItem->getText() . '</a>
+                        </li>';
 
-        // } else 
+                        if ($index < count($subItems) - 1) {
+                            echo '<li class="dropdown-divider"></li>';
+                        }
+                    }
+                    echo '</ul>
+                </div>
+            </li>';
 
-        if ($link === 'shoppingcart') {
-            echo ' 
-            <a class="nav-link link-body-emphasis active text-white ms-auto" href="index.php?page=shoppingcart" role="button" id="shoppingcart">
-                <i class="bi bi-bag-check"></i>
-            </a>';
-
-        //dit verder uitwerken
         } else {
-            echo '<li class="nav-item"><a class="' . $styling . '" href="index.php?page=' . $link . '">' . $text . '</a></li>';
-            if ($menuItem->getLogo()) {}
-             . $text . '</a></li>';
-        };
+            echo '<li class="nav-item"><a class="nav-link link-body-emphasis px-4 active text-white ' . $styling . '" href="index.php?page=' . $link . '"';
+            if (!empty($icon)) {
+                echo 'role="button" id="shoppingcart"><i class="' . $icon . '"></a></i>';
+            } else {
+                echo '>' . $text . '</a></li>';
+            }
+        }
 
     }
 
