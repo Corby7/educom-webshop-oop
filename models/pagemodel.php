@@ -55,13 +55,15 @@ class PageModel {
         $this->menu['topfive'] = new MenuItem('topfive', 'TOPFIVE');
         $this->menu['contact'] = new MenuItem('contact', 'CONTACT');
         if (!$this->sessionManager->isUserLoggedIn()) {
-            $this->menu['register'] = new MenuItem('register', 'REGISTER', 'nav-link link-body-emphasis active text-black me-auto');
+            $this->menu['register'] = new MenuItem('register', 'REGISTER', 'me-auto');
             $this->menu['login'] = new MenuItem('login', 'LOGIN');
         }
         if ($this->sessionManager->isUserLoggedIn()) {
-            $this->menu['shoppingcart'] = new MenuItem('shoppingcart', 'SHOPPING CART');
-            $this->menu['accountsettings'] = new MenuItem('accountsettings', 'ACCOUNT SETTINGS');
-            $this->menu['logout'] = new MenuItem('logout', 'LOGOUT: ' . $this->sessionManager->getLoggedInUserName());
+            $this->menu['accountsettings'] = new MenuItem('', '', 'me-auto', 'bi bi-person-circle');
+            $this->menu['accountsettings']->addSubItem('accountsettings', 'Wachtwoord wijzigen',);
+            $this->menu['accountsettings']->addSubItem('logout', 'Logout: ' . $this->sessionManager->getLoggedInUserName());
+            
+            $this->menu['shoppingcart'] = new MenuItem('shoppingcart', 'SHOPPING CART', '', 'bi bi-bag-check');
         }
     }
 }
