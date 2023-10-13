@@ -2,18 +2,23 @@
     font-family: 'Lato', sans-serif;
 }
 
-.body-container {
+/* .body-container {
     border: 1px solid black;
     background-color: yellow;
-}
+} */
 
-.body-content {
+/* .body-content {
     background-color: red;
-}
+} */
 
-.header-container {
+/* .header-container {
     background-color: green;
-}
+} */
+
+/* .navbar-nav {
+    background-color: purple;
+} */
+
 
 nav {
     height: 60px;
@@ -21,13 +26,14 @@ nav {
     background-image: linear-gradient(to bottom, #0869fc, #0d6efd, #0869fc);
 }
 
-.navbar-nav {
-    background-color: purple;
+.product-card {
+    padding: 30px;
+    border: 1px solid #d2d2d2;
+    border-radius: 50px 50px 0px 50px;
 }
 
 li.nav-item:nth-child(6) {
     margin-left: auto;
-    background-color: orange;
 }
 
 /* icon styling */
@@ -60,3 +66,70 @@ li.nav-item:nth-child(6) {
 .bi-bag-check, .bi-person-circle {
     font-size: 24px;
 }
+
+/* button styling */
+
+#button-invert {
+    background-color: #0d6efd;
+    border: 2px solid #0d6efd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    font-weight: bold;
+    color: white;
+}
+
+#button-invert:hover {
+    font-weight: bold;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    color: #0d6efd;
+    border: 2px solid #0d6efd;
+}
+
+#button-invert:active {
+    color: white;
+    border-color: black;
+    background-color: crimson;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*  */
+
+.cartdash, .cartplus {
+    background-color: transparent;
+    border: none;
+}
+
+.cartdash i:nth-child(1) {
+    color: crimson;
+}
+
+.cartplus i:nth-child(1) {
+    color: white;
+}
+
+.cartplus #button-shoppingcart {
+    color: #0d6efd;
+}
+
+
+.cartdash i:nth-child(2),
+.cartplus i:nth-child(2) {
+    display: none;
+}
+
+.cartdash:hover i:nth-child(1),
+.cartplus:hover i:nth-child(1) {
+    display: none;
+}
+
+.cartdash:hover i:nth-child(2) {
+    display: inline;
+    color: crimson;
+}
+
+.cartplus:hover i:nth-child(2) {
+    display: inline;
+    color: #0d6efd;
+}
+

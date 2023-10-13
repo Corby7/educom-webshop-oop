@@ -10,32 +10,34 @@ class ShoppingCartDoc extends ProductDoc {
 
     protected function showContent() {
         if (empty($_SESSION['shoppingcart'])) {
-            echo '<h1>Uw winkelmandje is leeg.</h1>';
+            echo '<h3>Uw winkelmandje is leeg.</h3>';
             return;
         }
     
         echo '
         <div class="shoppingcart">
-            <table>
-                <tr>
-                    <th></th>
-                    <th>Artikel</th>
-                    <th>Prijs</th>
-                    <th>Aantal</th>
-                    <th>Subtotaal</th>
-                </tr>';
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Artikel:</th>
+                        <th>Prijs:</th>
+                        <th>Aantal:</th>
+                        <th>Subtotaal:</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">';
     
                 foreach ($this->model->cartLines as $cartline) {
                     extract($cartline);
                     
                     echo '
                     <tr>
-                            <td><a href="index.php?page=productpage&productid=' . $id . '" class="productlink"><img src="images/' . $filenameimage . '"</a></td>
-                            <td><a href="index.php?page=productpage&productid=' . $id . '" class="productlink">' . $name . '</a></td>
-                        </a>
+                        <td><a href="index.php?page=productpage&productid=' . $id . '" class="productlink"><img src="images/' . $filenameimage . '"class="img-fluid" style="width: 100px" alt="Image of ' . $name . '"></a></td>
+                        <td><a href="index.php?page=productpage&productid=' . $id . '" class="productlink">' . $name . '</a></td>
                         <td>€' . number_format($price,2) . '</td>
                         <td>';
-                            $this->showActionForm('shoppingcart', 'removefromcart', '-', $id, $quantity, 'addtocart', '+');
+                            $this->showActionForm('shoppingcart', 'removefromcart', 'dash', $id, 'shoppingcart','addtocart', 'plus',  $quantity, );
                         echo '
                         </td>
                         <td>€' . number_format($subtotal, 2) . '</td>
@@ -43,13 +45,16 @@ class ShoppingCartDoc extends ProductDoc {
                 }
                 
                 echo '
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>Totaalprijs: €' . number_format(($this->model->cartTotal), 2) . '</th>
-                </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>Totaalprijs: €' . number_format(($this->model->cartTotal), 2) . '</th>
+                    </tr>
+                </tfoot>
             </table>';
             $this->showActionForm('shoppingcart', 'checkout', 'Afrekenen');
         echo '</div>';

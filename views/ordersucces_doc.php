@@ -10,7 +10,7 @@ class OrderSuccesDoc extends BasicDoc {
     }
 
     protected function showContent() {
-        echo '<h1>Bedankt voor uw bestelling! Check uw mail voor de orderinfo.</h1>';
+        echo '<h3>Bedankt voor uw bestelling! Check uw mail voor de orderinfo.</h3>';
     }
 
 }

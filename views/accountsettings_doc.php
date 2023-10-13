@@ -10,9 +10,9 @@ class AccountSettingsDoc extends FormsDoc {
 
     protected function showContent() {
         $this->showFormStart(true);
-        $this->showFormField('pass', 'Oud wachtwoord:', 'password');
-        $this->showFormField('newpass', 'Nieuw wachtwoord:', 'password');
-        $this->showFormField('repeatpass', 'Herhaal nieuw wachtwoord:', 'password');
+        $this->showFormField('pass', 'Oud wachtwoord', 'password');
+        $this->showFormField('newpass', 'Nieuw wachtwoord', 'password');
+        $this->showFormField('repeatpass', 'Herhaal nieuw wachtwoord', 'password');
         $this->showFormEnd('accountsettings', 'Wachtwoord wijzigen');
     }
 
