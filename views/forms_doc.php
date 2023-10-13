@@ -8,74 +8,65 @@ abstract class FormsDoc extends BasicDoc {
         <form method="post" action="index.php">';
             if ($hasRequiredFields) {
                 echo'
-                <p><span class="error"><strong>* Vereist veld</strong></span></p>';
+                <span class="alert alert-danger d-inline-block text-danger py-1" role="alert">* Vereist veld</span>';
             }
-            echo'
-            <ul class="flex-outer">';
     }
 
     protected function showFormField($fieldName, $label, $type, $options = NULL, $optional = false) {
-        echo '
-        <li>';
-            if ($type != 'radio') {
-            echo '<label for="' . $fieldName . '">' . $label . '</label>';
-            }
-
-    
-    
+ 
         switch($type) {
            
             case 'select':
                 echo '
-                <select name="' . $fieldName . '" id="' . $fieldName . '">
-                    <option disabled selected value> -- maak een keuze -- </option>';
-                    if (is_array($options)) {
-                        foreach ($options as $key => $label) {
-                            echo '
-                            <option value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "selected" : "") . '>' . $label . '</option>';
+                <div class="mb-3 form-outline w-50">
+                    <label for="gender" class="form-label fs-5">Aanhef<span class="text-danger d-inline-block">*</span></label>
+                    <select class="form-select" name="' . $fieldName . '" id="' . $fieldName . '">
+                        <option disabled selected value> -- maak een keuze -- </option>';
+                        if (is_array($options)) {
+                            foreach ($options as $key => $label) {
+                                echo '
+                                <option value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "selected" : "") . '>' . $label . '</option>';
+                            }
                         }
-                    }
-                echo '
-                </select>
+                    echo '
+                    </select>
                 ';
                 break;
     
             case 'radio':
                 echo '
-                <legend>' . $label . '</legend>';
-                if (is_array($options)) {
-                    foreach ($options as $key => $label) {
-                        $optionId = $fieldName . '_' . $key;
-                        echo '
-                        <li>
-                            <input type="' . $type . '" id="' . $optionId . '" name="' . $fieldName . '" value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "checked" : "") . '>
-                            <label for="' . $key . '">' . $label . '</label>
-                        </li>';
-                        }
-                }
+                <fieldset class="mb-3 form-outline w-50">
+                    <legend class="form-label fs-5">' . $label . '<span class="text-danger d-inline-block">*</span></legend>';
+                    if (is_array($options)) {
+                        foreach ($options as $key => $label) {
+                            $optionId = $fieldName . '_' . $key;
+                            echo '
+                            <div class="form-check">
+                                <input class="form-check-input" type="' . $type . '" id="' . $optionId . '" name="' . $fieldName . '" value="' . $key . '"' . ($this->model->{$fieldName} === $key ? "checked" : "") . '>
+                                <label class="form-check-label" for="' . $optionId . '">' . $label . '</label>
+                            </div>';
+                            }
+                    }
                 break;
     
             case 'textarea':
                 echo '
-                <textarea id="' . $fieldName . '" name="' . $fieldName . '"';
-                if (is_array($options)) {
-                    foreach ($options as $key => $value) {
-                        echo ' ' . $key . '="' . $value . '"';
-                    }
-                }
-                echo '
-                >' . $this->model->{$fieldName} . '</textarea>';
+                <div class="mb-3 form-outline w-50">
+                    <label for="bericht" class="form-label fs-5">Bericht<span class="text-danger d-inline-block">*</span></label>
+                    <textarea class="form-control" id="' . $fieldName . '" name="' . $fieldName . '" rows="5">' . $this->model->{$fieldName} . '</textarea>';
                 break;
 
             default:
                 echo '
-                <input type="' . $type . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $this->model->{$fieldName} . '">';
+                <div class="form-floating mb-3 form-outline w-50">
+                    <input type="' . $type . '" class="form-control" placeholder="' . $label . '" id="' . $fieldName . '" name="' . $fieldName . '" value="' . $this->model->{$fieldName} . '">
+                    <label for="' . $fieldName . '" class="form-label"><span class="text-secondary">' . $label . '</span><span class="text-danger d-inline-block">*</span></label>';
                 break;
         
         }
     
         if (!$optional && isset($this->model->{$fieldName . 'Err'}) && !empty($this->model->{$fieldName . 'Err'})) {
-            echo '<span class="error">* ' . $this->model->{$fieldName . 'Err'} . '</span>';
+            echo '<span class="text-danger">' . $this->model->{$fieldName . 'Err'} . '</span>';
         }
 
     
@@ -95,16 +86,16 @@ abstract class FormsDoc extends BasicDoc {
             }
         }
     
-        echo '    
-        </li>';
+        if ($type == 'radio') {
+            echo '</fieldset>';
+        } else {
+            echo '</div>';
+        }
     }
     
     protected function showFormEnd($page, $submitButtonText) {
         echo '
-            <li>
-                <button type="submit" name="page" value="' . $page . '">' . $submitButtonText . '</button>
-            </li>
-        </ul>
+        <button type="submit" class="btn btn-primary" id="button-invert" name="page" value="' . $page . '">' . $submitButtonText . '</button>
     </form>';
     }
     

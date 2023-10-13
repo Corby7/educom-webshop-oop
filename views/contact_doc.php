@@ -12,14 +12,14 @@ class ContactDoc extends FormsDoc {
 
     protected function showContent() {
         $this->showFormStart(true);
-        $this->showFormField('gender', 'Aanhef:', 'select',  self::GENDERS);
-        $this->showFormField('fname', 'Voornaam:', 'text');
-        $this->showFormField('lname', 'Achternaam:', 'text');
-        $this->showFormField('email', 'E-mailadres:', 'email');
-        $this->showFormField('phone', 'Telefoonnummer:', 'text');
+        $this->showFormField('gender', 'Aanhef', 'select',  self::GENDERS);
+        $this->showFormField('fname', 'Voornaam', 'text');
+        $this->showFormField('lname', 'Achternaam', 'text');
+        $this->showFormField('email', 'E-mailadres', 'email');
+        $this->showFormField('phone', 'Telefoonnummer', 'text');
         $this->showFormField('preference', 'Op welke manier wilt u bereikt worden?', 'radio', self::COMM_PREFS);
         $this->showFormField('message', 'Waarover wilt u contact opnemen?', 'textarea', [ 'rows' => 5, 'cols' => 33 ]);
-        $this->showFormEnd('contact', 'verstuur');
+        $this->showFormEnd('contact', 'Verstuur');
     }
 }
 
