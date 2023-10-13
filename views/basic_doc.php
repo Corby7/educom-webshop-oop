@@ -68,7 +68,7 @@ class BasicDoc extends HtmlDoc {
                             <a class="' . $subItem->getStyling() . '" href="index.php?page=' . $subItem->getLink() . '">' . $subItem->getText() . '</a>
                         </li>';
 
-                        if ($index < count($subItems) - 1) {
+                        if ($index === 0) {
                             echo '<li class="dropdown-divider"></li>';
                         }
                     }
