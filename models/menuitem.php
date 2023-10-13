@@ -4,13 +4,22 @@ class MenuItem {
     private $link;
     private $text;
     private $styling;
-    private $logo;
+    private $icon;
     private $subItems = array();
 
-    public function __construct($link, $text, $styling = 'nav-link link-body-emphasis px-4 active text-white', $logo = "") {
+    public function __construct($link, $text, $styling = "", $icon = "") {
         $this->link = $link;
         $this->text = $text;
         $this->styling = $styling;
+        $this->icon = $icon;
+    }
+
+    public function addSubItem($link, $text, $styling = "dropdown-item av-link link-body-emphasis px-3 active text-black bg-white fw-bold", $icon = "") {
+        $this->subItems[] = new MenuItem($link, $text, $styling, $icon);
+    }
+
+    public function getSubItems() {
+        return $this->subItems;
     }
 
     public function getLink() {
@@ -25,8 +34,8 @@ class MenuItem {
         return $this->styling;
     }
 
-    public function addLogo($biLogo) {
-        $this-> logo = $biLogo;
+    public function getIcon() {
+        return $this->icon;
     }
 }
 
