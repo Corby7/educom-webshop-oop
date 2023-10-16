@@ -65,7 +65,7 @@ class BasicDoc extends HtmlDoc {
                     
                     foreach ($subItems as $index => $subItem) {
                         echo '<li>
-                            <a class="' . $subItem->getStyling() . '" href="index.php?page=' . $subItem->getLink() . '">' . $subItem->getText() . '</a>
+                            <a class="dropdown-item ' . $subItem->getStyling() . '" href="index.php?page=' . $subItem->getLink() . '">' . $subItem->getText() . '</a>
                         </li>';
 
                         if ($index === 0) {
@@ -77,9 +77,9 @@ class BasicDoc extends HtmlDoc {
             </li>';
 
         } else {
-            echo '<li class="nav-item"><a class="nav-link link-body-emphasis px-4 active text-white ' . $styling . '" href="index.php?page=' . $link . '"';
+            echo '<li class="nav-item"><a class="bagcheck nav-link link-body-emphasis px-4 active text-white ' . $styling . '" href="index.php?page=' . $link . '"';
             if (!empty($icon)) {
-                echo 'role="button" id="shoppingcart"><i class="' . $icon . '"></a></i>';
+                echo 'role="button" id="shoppingcart"><i class="' . $icon . '"></i><i class="' . $icon . '-fill"></i></a>';
             } else {
                 echo '>' . $text . '</a></li>';
             }
