@@ -52,7 +52,7 @@ class PageModel {
         $this->menu['home'] = new MenuItem('home', 'HOME');
         $this->menu['about'] = new MenuItem('about', 'ABOUT');
         $this->menu['webshop'] = new MenuItem('webshop', 'WEBSHOP');
-        $this->menu['topfive'] = new MenuItem('topfive', 'TOPFIVE');
+        $this->menu['topfive'] = new MenuItem('topfive', 'TOP 5');
         $this->menu['contact'] = new MenuItem('contact', 'CONTACT');
         if (!$this->sessionManager->isUserLoggedIn()) {
             $this->menu['register'] = new MenuItem('register', 'REGISTER', 'me-auto');
