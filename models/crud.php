@@ -73,7 +73,9 @@ class Crud {
         $conn = null;
     }
 
-    protected function updateRow($sql, $params=[]) {
+    public function updateRow($sql, $params=[]) {
+        $this->connectDB();
+
         try {
             $stmt = $this->pdo->prepare($sql);
             foreach ($params as $key => $value) {
