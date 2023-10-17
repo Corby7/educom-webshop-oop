@@ -4,10 +4,13 @@ include_once "models/shopmodel.php";
 
 
 class PageController {
+
+    private $modelFactory;
     private $model;
 
-    public function __construct() {
-        $this->model = new PageModel(NULL);
+    public function __construct($modelFactory) {
+        $this->modelFactory = $modelFactory;
+        $this->model = $this->modelFactory->createModel('page');
     }
 
     private function logError($message) {
@@ -30,7 +33,7 @@ class PageController {
         switch($this->model->page) {
 
             case 'contact':
-                $this->model = new UserModel($this->model);
+                $this->model = $this->modelFactory->createModel('user');
                 if ($this->model->isPost) {
                     $this->model->validateContact();
                     if ($this->model->valid) {
@@ -40,7 +43,7 @@ class PageController {
                 break;
 
             case 'webshop':
-                $this->model = new ShopModel($this->model);
+                $this->model = $this->modelFactory->createModel('shop');
 
                 try {
                     require_once("mysqlconnect.php");
@@ -51,7 +54,7 @@ class PageController {
                 break;
 
             case 'topfive':
-                $this->model = new ShopModel($this->model);
+                $this->model = $this->modelFactory->createModel('shop');
 
                 try {
                     require_once("mysqlconnect.php");
@@ -62,7 +65,7 @@ class PageController {
                 break;
 
             case 'productpage':
-                $this->model = new ShopModel($this->model);
+                $this->model = $this->modelFactory->createModel('shop');
                 $productid = $this->model->getProductIdFromUrl();
 
                 try {
@@ -74,7 +77,7 @@ class PageController {
                 break;
 
             case 'shoppingcart':
-                $this->model = new ShopModel($this->model);
+                $this->model = $this->modelFactory->createModel('shop');
                 if ($this->model->isPost) {
                     if ($this->model->handleCartActions()) {
                         $this->model->setPage('ordersucces');
@@ -84,7 +87,7 @@ class PageController {
                 break;
 
             case 'register':
-                $this->model = new UserModel($this->model);
+                $this->model = $this->modelFactory->createModel('user');
                 if ($this->model->isPost) {
                     $this->model->validateRegister();
                     if ($this->model->valid) {
@@ -100,7 +103,7 @@ class PageController {
                 break;
             
             case 'login':
-                $this->model = new UserModel($this->model);
+                $this->model = $this->modelFactory->createModel('user');
                 if ($this->model->isPost) {
                     $this->model->validateLogin();
                     if ($this->model->valid) {
@@ -111,7 +114,7 @@ class PageController {
                 break;
 
             case 'accountsettings':
-                $this->model = new UserModel($this->model);
+                $this->model = $this->modelFactory->createModel('user');
                 $this->model->validateAccountSettings();
                 if ($this->model->valid) {
                     try {
@@ -124,7 +127,7 @@ class PageController {
                 break;
             
             case 'logout':
-                $this->model = new UserModel($this->model);
+                $this->model = $this->modelFactory->createModel('user');
                 $this->model->doLogoutUser();
                 $this->model->setPage('home');
                 break;
