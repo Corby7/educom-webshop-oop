@@ -1,5 +1,6 @@
 <?php
 require_once('cruds/usercrud.php');
+require_once('cruds/shopcrud.php');
 
 class CrudFactory {
 
