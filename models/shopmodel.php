@@ -2,10 +2,12 @@
 
 class ShopModel extends PageModel {
 
-    public function __construct($pageModel) {
+    public function __construct($pageModel, $shopCrud) {
         PARENT::__construct($pageModel);
+        $this->shopCrud = $shopCrud;
     }
 
+    private $shopCrud;
     public $products = array();
     public $product = array();
     public $cartLines = array();
@@ -20,18 +22,15 @@ class ShopModel extends PageModel {
     }
 
     public function getWebshopData() {
-        require_once("mysqlconnect.php");
-        return getAllProducts();
+        return $this->shopCrud->getAllProducts();
     }
 
     public function getTopFiveData() {
-        require_once("mysqlconnect.php");
-        return getTopFiveProducts();
+        return $this->shopCrud->getTopFiveProducts();
     }
 
     public function getProductPageData($productid) {
-        require_once("mysqlconnect.php");
-        return getProduct($productid);
+        return $this->shopCrud->getProduct($productid);
     }
 
     public function handleCartActions() {
@@ -61,13 +60,9 @@ class ShopModel extends PageModel {
     
     public function makeOrder() {
         try {
-            $cart = $_SESSION['shoppingcart'];
-            $email = $_SESSION['useremail'];
-            require_once("mysqlconnect.php");
-            //maybe just use private user id i saved somewhere?
-            $useridArray = getUserId($email);
-            $useridString = reset($useridArray);
-            createOrder($useridString, $cart);
+            $cart = $this->sessionManager->getCart();
+            $userId = $this->sessionManager->getLoggedInUserId();
+            $this->shopCrud->createOrder($userId, $cart);
             return true;
         } catch (Exception $e) {
             logError("Checkout failed: " . $e->getMessage());
@@ -84,8 +79,10 @@ class ShopModel extends PageModel {
                 return;
             }
             $productids = array_keys($cart);
-            require_once("mysqlconnect.php");
-            $cartProducts = getProductsByIds($productids);
+            // require_once("mysqlconnect.php");
+            $cartProducts = $this->shopCrud->getProductsByIds($productids);
+            var_dump($cartProducts);
+
             foreach($cart as $productid => $quantity) {
                 $product = $cartProducts[$productid];  
                 extract($product);                       
@@ -102,3 +99,4 @@ class ShopModel extends PageModel {
 }
 
 ?>
+
