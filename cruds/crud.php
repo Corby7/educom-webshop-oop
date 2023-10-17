@@ -26,13 +26,11 @@ class Crud {
             }
             $stmt->execute();
             $result = $this->pdo->lastInsertId();
-            echo "Row succesfully created: ";
+            echo "Row succesfully created";
             return $result;
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-
-        $conn = null;
     }
 
     public function readOneRow($sql, $params=[]) {
@@ -45,13 +43,11 @@ class Crud {
             }
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_OBJ);
-            echo "Row succesfully read: ";
+            echo "Row succesfully read";
             return $result;
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-
-        $conn = null;
     }
 
     public function readManyRows($sql, $params=[]) {
@@ -64,13 +60,11 @@ class Crud {
             }
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-            echo "Rows succesfully read: ";
+            echo "Rows succesfully read";
             return $result;
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-        
-        $conn = null;
     }
 
     public function updateRow($sql, $params=[]) {
@@ -87,8 +81,6 @@ class Crud {
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-        
-        $conn = null;
     }
 
     protected function deleteRow($sql, $params=[]) {}
