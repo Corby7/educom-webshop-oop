@@ -92,7 +92,8 @@ class PageController {
                     $this->model->validateRegister();
                     if ($this->model->valid) {
                         try {
-                            $this->model->storeUser($this->model->name, $this->model->email, $this->model->pass);
+                            $user = array('name' => $this->model->name, 'email' => $this->model->email , 'password' => $this->model->pass);
+                            $this->model->storeUser($user);
                             $this->model->setPage('login');
                         } catch (Exception $e) {
                             logError("Store user failed: " . $e->getMessage());
