@@ -16,8 +16,9 @@ class ShopCrud {
 
     public function getProductsByIds(array $productids) {
         $productidsString = implode(',', $productids);
+        echo $productidsString;
         $sql = "SELECT * FROM products WHERE id IN (:ids)";
-        $params = ['ids' => $productidsString];
+        $params = ['ids' => '1, 2, 4'];
         return $this->crud->readManyRows($sql, $params);
     }
 
@@ -32,40 +33,25 @@ class ShopCrud {
         FROM orderlines
         LEFT JOIN orders ON orderlines.order_id = orders.id 
         LEFT JOIN products ON orderlines.product_id = products.id
-        WHERE orders.date > DATE_SUB(NOW(), INTERVAL 2 WEEK)
+        WHERE orders.date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
         GROUP BY orderlines.product_id 
         ORDER BY SUM(orderlines.amount) 
         DESC LIMIT 5";
-        //change 2 week back to 1 week later!!
         $params = [];
         return $this->crud->readManyRows($sql, $params);
     }
-   
-   
-   
-   
-   
-   
-   
-   
-    public function createUser($user) {
-        $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
-        $params = $user; // $user as['name' => $username, 'email' => $email , 'password' => $pass,];
-        return $this->crud->createRow($sql, $params);
 
+    public function createOrder($userId, $cart) {
+        $sql = "INSERT INTO orders (user_id, `date`) VALUES (:id, CURRENT_TIMESTAMP())";
+        $params = ['id' => $userId];
+        $orderid = $this->crud->createRow($sql, $params);
+        foreach ($cart as $productid => $amount) {
+            $sql = "INSERT INTO orderlines (order_id, product_id, amount) VALUES (:orderid, :productid, :amount)";
+            $params = ['orderid' => $orderid, 'productid' => $productid, 'amount' => $amount];
+            $this->crud->createRow($sql, $params);
+        }
     }
 
-    public function readUserByEmail($email) {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $params = ['email' => $email];
-        return $this->crud->readOneRow($sql, $params);
-    }
-
-    public function updateUserPassword($id, $newPassword) {
-        $sql = "UPDATE users SET password = :password WHERE id = :id";
-        $params = ['id' => $id, 'password' => $newPassword];
-        $this->crud->updateRow($sql, $params);
-    }
 }
 
 ?>
