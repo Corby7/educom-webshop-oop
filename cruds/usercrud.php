@@ -10,7 +10,7 @@ class UserCrud {
 
     public function createUser($user) {
         $sql = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
-        $params = $user; // $user as['name' => $username, 'email' => $email , 'password' => $pass,];
+        $params = $user;
         return $this->crud->createRow($sql, $params);
 
     }
