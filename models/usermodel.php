@@ -10,10 +10,12 @@ define("RESULT_WRONG_PASSWORD", -2);
 
 class UserModel extends PageModel {
     
-    public function __construct($pageModel) {
+    public function __construct($pageModel, $userCrud) {
         PARENT::__construct($pageModel);
+        $this->userCrud = $userCrud;
     }
 
+    private $userCrud;
     private $userId = 0;
     public $valid = false;
 
@@ -159,7 +161,8 @@ class UserModel extends PageModel {
     private function doesEmailExist($email) {
         require_once("mysqlconnect.php");
 
-        $user = findUserByEmail($email);
+        $user = $this->userCrud->readUserByEmail($email);
+        var_dump($user);
         return !empty($user);
     }
 
