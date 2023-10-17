@@ -80,7 +80,7 @@ abstract class FormsDoc extends BasicDoc {
             if (isset($extraErrors[$fieldName])) {
                 foreach ($extraErrors[$fieldName] as $errorKey) {
                     if (!empty($this->model->{$errorKey})) {
-                        echo '<span class="error">* ' . $this->model->{$errorKey} . '</span>';
+                        echo '<span class="text-danger">' . $this->model->{$errorKey} . '</span>';
                     }
                 }
             }
