@@ -21,6 +21,10 @@ class SessionManager {
         return isset($_SESSION['useremail']) ? $_SESSION['useremail'] : '';
     }
 
+    public function getLoggedInUserId() {
+        return isset($_SESSION['userid']) ? $_SESSION['userid'] : '';
+    }
+
     public function doLogoutUser() {
         session_unset();
         session_destroy(); 
