@@ -16,7 +16,7 @@ class UserModel extends PageModel {
     }
 
     private $userCrud;
-    private $userId = 0;
+    private $userid = 0;
     public $valid = false;
 
     // Fields for 'contact'
@@ -159,15 +159,12 @@ class UserModel extends PageModel {
     }
 
     private function doesEmailExist($email) {
-        require_once("mysqlconnect.php");
-
         $user = $this->userCrud->readUserByEmail($email);
-        var_dump($user);
         return !empty($user);
     }
 
-    function storeUser($email, $name, $pass) {
-        saveUser($email, $name, $pass);
+    public function storeUser($user) {
+        $this->userCrud->createUser($user);
         $this->genericErr = "Registratie succesvol";
     }    
 
@@ -193,12 +190,10 @@ class UserModel extends PageModel {
                     $this->wrongpassErr = "Wachtwoord is onjuist";
                 } elseif ($result['result'] === RESULT_OK) {
                     $this->valid = true;
-                    $this->username = $result['user']['name'];
-                    $this->useremail = $result['user']['email'];
-                    $this->userid = $result['user']['id'];
-                    // $this->name = $user['name'];
-                    // $this->userId = $user['id'];
-                    //change email to id?
+                    $this->username = $result['user']->name;
+                    $this->useremail = $result['user']->email;
+                    $this->userid = $result['user']->id;
+                    echo $this->userid;
                 }
             } catch (Exception $e) {
                 logError("Login failed: " . $e->getMessage());
@@ -261,16 +256,14 @@ class UserModel extends PageModel {
     
 
     private function authenticateUser() {
-        require_once "mysqlconnect.php";
-
-        $user = findUserByEmail($this->email);
+        $user = $this->userCrud->readUserByEmail($this->email);
 
         //password validatie
         if(empty($user)) {
             return ['result' => RESULT_UNKNOWN_USER];
         }
     
-        if ($user['pass'] !== $this->pass) {
+        if ($user->password !== $this->pass) {
             return ['result' => RESULT_WRONG_PASSWORD];
         }
     
