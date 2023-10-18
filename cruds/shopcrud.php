@@ -14,12 +14,13 @@ class ShopCrud {
         return $this->crud->readOneRow($sql, $params);
     }
 
-    public function getProductsByIds(array $productids) {
-        $productidsString = implode(',', $productids);
-        echo $productidsString;
+    public function getProductsByIds($productids) {
         $sql = "SELECT * FROM products WHERE id IN (:ids)";
-        $params = ['ids' => '1, 2, 4'];
-        return $this->crud->readManyRows($sql, $params);
+        $params = array("ids" => $productids);
+        $result = $this->crud->prepareAndBind($sql, $params);
+        $sqlPrepped = $result["sql"];
+        $paramsPrepped = $result["params"];
+        return $this->crud->readManyRows($sqlPrepped, $paramsPrepped, true);
     }
 
     public function getAllProducts() {
