@@ -62,7 +62,7 @@ class ShopModel extends PageModel {
             
             case 'checkout':
                 if ($this->makeOrder()) {
-                    $_SESSION['shoppingcart'] = array();
+                    $this->sessionManager->emptyCart();
                     return true;
                 }
                 break;

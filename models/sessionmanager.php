@@ -38,6 +38,10 @@ class SessionManager {
         }
     }
     
+    public function emptyCart() {
+        $_SESSION['shoppingcart'] = array();
+    }
+
     public function addToCart($productId) {
         if (array_key_exists($productId, $_SESSION['shoppingcart'])) {
             $_SESSION['shoppingcart'][$productId] += 1;
