@@ -1,15 +1,14 @@
 <?php
 include_once "pagemodel.php";
 
-/** Authentication result indicating success. */
-define("RESULT_OK", 0);
-/** Authentication result indicating an unknown user. */
-define("RESULT_UNKNOWN_USER", -1);
-/** Authentication result indicating a wrong password. */
-define("RESULT_WRONG_PASSWORD", -2);
-
 class UserModel extends PageModel {
-    
+    /** Authentication result indicating success. */
+    const RESULT_OK = 0;
+    /** Authentication result indicating an unknown user. */
+    const RESULT_UNKNOWN_USER = -1;
+    /** Authentication result indicating a wrong password. */
+    const RESULT_WRONG_PASSWORD = -2;
+
     public function __construct($pageModel, $userCrud) {
         PARENT::__construct($pageModel);
         $this->userCrud = $userCrud;
@@ -127,13 +126,12 @@ class UserModel extends PageModel {
         }
         
         try {
-            //require_once('userservice.php');
             if (!empty($this->email) && $this->doesEmailExist($this->email)) {
                 $this->emailknownErr = "E-mailadres is reeds bekend";
             }
         } catch (Exception $e) {
             logError("Check if email exists failed: " . $e->getMessage());
-            $genericErr = "Sorry technisch probleem, e-mailadres kan niet gecheckt worden";
+            $this->genericErr = "Sorry technisch probleem, e-mailadres kan niet gecheckt worden";
         }
     
         $this->pass = $this->getFilteredPostVar("pass");
@@ -165,7 +163,7 @@ class UserModel extends PageModel {
 
     public function storeUser($user) {
         $this->userCrud->createUser($user);
-        $this->genericErr = "Registratie succesvol";
+        $this->genericMsg = "Registratie succesvol";
     }    
 
     public function validateLogin() {
@@ -184,20 +182,23 @@ class UserModel extends PageModel {
             try {
                 $result = $this->authenticateUser();
     
-                if ($result['result'] === RESULT_UNKNOWN_USER) {
-                    $this->emailunknownErr = "E-mailadres is onbekend";
-                } elseif ($result['result'] === RESULT_WRONG_PASSWORD) {
-                    $this->wrongpassErr = "Wachtwoord is onjuist";
-                } elseif ($result['result'] === RESULT_OK) {
-                    $this->valid = true;
-                    $this->username = $result['user']->name;
-                    $this->useremail = $result['user']->email;
-                    $this->userid = $result['user']->id;
-                    echo $this->userid;
+                switch($result['result']) {
+                    case UserModel::RESULT_UNKNOWN_USER:   
+                        $this->emailunknownErr = "E-mailadres is onbekend";
+                        break;
+                    case UserModel::RESULT_WRONG_PASSWORD:
+                        $this->wrongpassErr = "Wachtwoord is onjuist";
+                        break;
+                    case UserModel::RESULT_OK:
+                        $this->valid = true;
+                        $this->username = $result['user']->name;
+                        $this->useremail = $result['user']->email;
+                        $this->userid = $result['user']->id;
+                        break;
                 }
             } catch (Exception $e) {
                 logError("Login failed: " . $e->getMessage());
-                $genericErr = "Sorry technisch probleem, inloggen niet mogelijk";
+                $this->genericErr = "Sorry technisch probleem, inloggen niet mogelijk";
             }
         }
     }
@@ -232,16 +233,16 @@ class UserModel extends PageModel {
                     $result = $this->authenticateUser();
     
                     switch($result['result']) {
-                        case RESULT_WRONG_PASSWORD;
+                        case UserModel::RESULT_WRONG_PASSWORD;
                             $this->wrongpassErr = "Wachtwoord is onjuist";
                             break;
-                        case RESULT_OK;
+                        case UserModel::RESULT_OK;
                             $this->valid = true;
                             break;
                     }
                 } catch (Exception $e) {
                     logError("Password verify failed: " . $e->getMessage());
-                    $genericErr = "Sorry technisch probleem, wachtwoord kan niet worden geverifieerd";
+                    $this->genericErr = "Sorry technisch probleem, wachtwoord kan niet worden geverifieerd";
                 }
             }
         }
@@ -260,33 +261,34 @@ class UserModel extends PageModel {
 
         //password validatie
         if(empty($user)) {
-            return ['result' => RESULT_UNKNOWN_USER];
+            return ['result' => UserModel::RESULT_UNKNOWN_USER];
         }
     
         if ($user->password !== $this->pass) {
-            return ['result' => RESULT_WRONG_PASSWORD];
+            return ['result' => UserModel::RESULT_WRONG_PASSWORD];
         }
     
-        return ['result' => RESULT_OK, 'user' => $user];
+        return ['result' => UserModel::RESULT_OK, 'user' => $user];
     }
 
     public function doLoginUser() {
         $this->sessionManager->doLoginUser($this->username, $this->useremail, $this->userid);
-        $this->genericErr = "Login succesvol";
+        $this->genericMsg = "Login succesvol";
     }
 
     public function doLogoutUser() {
         $this->sessionManager->doLogoutUser();
-        $this->genericErr = "Uitgelogd";
+        $this->genericMsg = "Uitgelogd";
     }
 
     public function updatePasswordByEmail() {
         try {
-            if (overwritePassword($this->email, $this->newpass)) {
-                $this->genericErr = "Wachtwoord succesvol gewijzigd.";
-            }
+            $this->userid = $this->sessionManager->getLoggedInUserId();
+            $this->userCrud->updateUserPassword($this->userid, $this->newpass);
+            $this->genericMsg = "Wachtwoord successvol gewijzigd.";
         } catch (Exception $e) {
             logError("Overwriting password failed: " . $e->getMessage());
+            $this->genericErr = "Sorry, technische storing. Wachtwoord wijzigen niet gelukt.";
         }
     }
 
