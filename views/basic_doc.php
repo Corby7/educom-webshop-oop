@@ -87,9 +87,15 @@ class BasicDoc extends HtmlDoc {
 
     }
 
+    protected function showGenericMsg() {
+        if (isset($this->model->genericMsg) && !empty($this->model->genericMsg)) {
+            echo '<span class="text-success">' . $this->model->genericMsg . '</span>';
+        }
+    }
+
     protected function showGenericErr() {
         if (isset($this->model->genericErr) && !empty($this->model->genericErr)) {
-            echo '<div class="error">' . $this->model->genericErr . '</div>';
+            echo '<span class="text-danger">' . $this->model->genericErr . '</span>';
         }
     }
 
@@ -126,6 +132,7 @@ class BasicDoc extends HtmlDoc {
                 echo '
                 </div>
             </header>';
+            $this->showGenericMsg();
             $this->showGenericErr();
             $this->showContent();
         echo'
