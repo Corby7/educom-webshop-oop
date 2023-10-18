@@ -161,9 +161,15 @@ class UserModel extends PageModel {
         return !empty($user);
     }
 
-    public function storeUser($user) {
-        $this->userCrud->createUser($user);
-        $this->genericMsg = "Registratie succesvol";
+    public function storeUser() {
+        try {
+            $user = array('name' => $this->name, 'email' => $this->email , 'password' => $this->pass);
+            $this->userCrud->createUser($user);
+            $this->genericMsg = "Registratie succesvol";
+        } catch (Exception $e) {
+            logError("Store user failed: " . $e->getMessage());
+            $this->model->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
+        }
     }    
 
     public function validateLogin() {
@@ -288,7 +294,7 @@ class UserModel extends PageModel {
             $this->genericMsg = "Wachtwoord successvol gewijzigd.";
         } catch (Exception $e) {
             logError("Overwriting password failed: " . $e->getMessage());
-            $this->genericErr = "Sorry, technische storing. Wachtwoord wijzigen niet gelukt.";
+            $this->genericErr = "Sorry, technische storing. Wachtwoord wijzigen niet mogelijk.";
         }
     }
 

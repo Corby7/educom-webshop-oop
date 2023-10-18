@@ -72,14 +72,9 @@ class PageController {
                 if ($this->model->isPost) {
                     $this->model->validateRegister();
                     if ($this->model->valid) {
-                        try {
-                            $user = array('name' => $this->model->name, 'email' => $this->model->email , 'password' => $this->model->pass);
-                            $this->model->storeUser($user);
+                        if ($this->model->storeUser()) {
                             $this->model->setPage('login');
-                        } catch (Exception $e) {
-                            logError("Store user failed: " . $e->getMessage());
-                            $this->model->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
-                        }
+                        };
                     }
                 }
                 break;
@@ -99,12 +94,7 @@ class PageController {
                 $this->model = $this->modelFactory->createModel('user');
                 $this->model->validateAccountSettings();
                 if ($this->model->valid) {
-                    try {
-                        $this->model->updatePasswordbyEmail();
-                    } catch (Exception $e) {
-                        logError("Update password failed: " . $e->getMessage());
-                        $this->model->genericErr = "Wachtwoord bijwerken niet mogelijk";
-                    }
+                    $this->model->updatePasswordbyEmail();
                 }
                 break;
             
