@@ -55,8 +55,10 @@ class ShoppingCartDoc extends ProductDoc {
                         <th>Totaalprijs: €' . number_format(($this->model->cartTotal), 2) . '</th>
                     </tr>
                 </tfoot>
-            </table>';
-            $this->showActionForm('shoppingcart', 'checkout', 'Afrekenen');
+            </table>
+            <div class= "d-flex justify-content-end me-5">';
+                $this->showActionForm('shoppingcart', 'checkout', 'Afrekenen');
+            echo '</div>';
         echo '</div>';
     }
      
