@@ -79,16 +79,21 @@ class ShopModel extends PageModel {
                 return;
             }
             $productids = array_keys($cart);
-            // require_once("mysqlconnect.php");
             $cartProducts = $this->shopCrud->getProductsByIds($productids);
-            var_dump($cartProducts);
 
             foreach($cart as $productid => $quantity) {
-                $product = $cartProducts[$productid];  
-                extract($product);                       
-                $subtotal = $price * $quantity; 
+                $product = $cartProducts[$productid];    
+                $subtotal = $product->price * $quantity; 
                 $this->cartTotal += $subtotal;
-                $this->cartLines[] = compact('id', 'filenameimage', 'name', 'price', 'quantity', 'subtotal');
+
+                $this->cartLines[] = [
+                    'id' => $product->id,
+                    'filenameimage' => $product->filenameimage,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'quantity' => $quantity,
+                    'subtotal' => $subtotal
+                ];
             } 
         } catch (Exception $e) {
             logError("Getting cart products failed: " . $e->getMessage()); 
