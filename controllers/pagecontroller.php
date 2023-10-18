@@ -44,36 +44,17 @@ class PageController {
 
             case 'webshop':
                 $this->model = $this->modelFactory->createModel('shop');
-
-                try {
-                    require_once("mysqlconnect.php");
-                    $this->model->products = $this->model->getWebshopData();
-                } catch (Exception $e) {
-                    logError("Get all products failed: " . $e->getMessage());
-                }
+                $this->model->products = $this->model->getWebshopData();
                 break;
 
             case 'topfive':
                 $this->model = $this->modelFactory->createModel('shop');
-
-                try {
-                    require_once("mysqlconnect.php");
-                    $this->model->products = $this->model->getTopFiveData();
-                } catch (Exception $e) {
-                    logError("Get top five products failed: " . $e->getMessage());
-                }
+                $this->model->products = $this->model->getTopFiveData();
                 break;
 
             case 'productpage':
                 $this->model = $this->modelFactory->createModel('shop');
-                $productid = $this->model->getProductIdFromUrl();
-
-                try {
-                    require_once("mysqlconnect.php");
-                    $this->model->product = $this->model->getProductPageData($productid);
-                } catch (Exception $e) {
-                    logError("Get product by id failed: " . $e->getMessage());
-                }
+                $this->model->product = $this->model->getProductPageData();
                 break;
 
             case 'shoppingcart':
