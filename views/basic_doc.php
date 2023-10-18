@@ -89,13 +89,13 @@ class BasicDoc extends HtmlDoc {
 
     protected function showGenericMsg() {
         if (isset($this->model->genericMsg) && !empty($this->model->genericMsg)) {
-            echo '<span class="text-success">' . $this->model->genericMsg . '</span>';
+            echo '<span class="text-success fw-bold mb-2">' . $this->model->genericMsg . '</span>';
         }
     }
 
     protected function showGenericErr() {
         if (isset($this->model->genericErr) && !empty($this->model->genericErr)) {
-            echo '<span class="text-danger">' . $this->model->genericErr . '</span>';
+            echo '<span class="text-danger fw-bold mb-2">' . $this->model->genericErr . '</span>';
         }
     }
 
