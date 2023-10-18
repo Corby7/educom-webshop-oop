@@ -15,6 +15,26 @@ class Crud {
         $this->pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    public function prepareAndBind($sql, $params) {
+        foreach ($params as $key => $value) {
+            if (!is_Array($value)) {
+                continue;
+            }
+            $sql_replacement = "";
+            foreach ($value as $index => $content) {
+                $new_key = $key . "_" . $index; //creates "ids_1
+                if (!empty($sql_replacement)) {
+                    $sql_replacement .= ",";
+                }
+                $sql_replacement .= ":" . $new_key; //":ids_0, :ids_1
+                $params[$new_key] = $content;
+            }
+            $sql = str_replace(":" . $key, $sql_replacement, $sql);
+            unset($params[$key]);
+        }
+        return array("sql" => $sql, "params" => $params);
+    }
+
     public function createRow($sql, $params=[]) {
         $this->connectDB();
         
@@ -26,7 +46,7 @@ class Crud {
             }
             $stmt->execute();
             $result = $this->pdo->lastInsertId();
-            echo "Row succesfully created";
+            //echo "Row succesfully created";
             return $result;
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -43,14 +63,14 @@ class Crud {
             }
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_OBJ);
-            echo "Row succesfully read";
+            //echo "Row succesfully read";
             return $result;
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
 
-    public function readManyRows($sql, $params=[]) {
+    public function readManyRows($sql, $params=[], $bindId = false) {
         $this->connectDB();
         
         try {
@@ -59,8 +79,15 @@ class Crud {
                 $stmt->bindValue(":" . $key, $value);
             }
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-            echo "Rows succesfully read";
+
+            if ($bindId == true) {
+                while ($row = $stmt->fetch(PDO::FETCH_OBJ)) {
+                    $result[$row->id] = $row;
+                }
+            } else {
+                $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            }
+            //echo "Rows succesfully read";
             return $result;
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -77,7 +104,7 @@ class Crud {
             }
             $stmt->execute();
 
-            echo "Row updated succesfully";
+            //echo "Row updated succesfully";
         } catch(PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
