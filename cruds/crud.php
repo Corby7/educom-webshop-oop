@@ -110,8 +110,21 @@ class Crud {
         }
     }
 
-    protected function deleteRow($sql, $params=[]) {}
+    protected function deleteRow($sql, $params=[]) {
+        $this->connectDB();
 
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            foreach ($params as $key => $value) {
+                $stmt->bindValue(":" . $key, $value);
+            }
+            $stmt->execute();
+
+            //echo "Row deleted succesfully";
+        } catch(PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 
 }
 
