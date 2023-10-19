@@ -24,6 +24,10 @@ class PageModel {
         }
     }
 
+    public function logError($message) {
+        echo "LOG TO FILE: " . $message;
+    }
+
     public function getRequestedPage() {
         $this->isPost = ($_SERVER['REQUEST_METHOD'] == 'POST');
 
