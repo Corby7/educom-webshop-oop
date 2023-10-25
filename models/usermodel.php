@@ -130,7 +130,7 @@ class UserModel extends PageModel {
                 $this->emailknownErr = "E-mailadres is reeds bekend";
             }
         } catch (Exception $e) {
-            logError("Check if email exists failed: " . $e->getMessage());
+            $this->logError("Check if email exists failed: " . $e->getMessage());
             $this->genericErr = "Sorry technisch probleem, e-mailadres kan niet gecheckt worden";
         }
     
@@ -167,8 +167,8 @@ class UserModel extends PageModel {
             $this->userCrud->createUser($user);
             $this->genericMsg = "Registratie succesvol";
         } catch (Exception $e) {
-            logError("Store user failed: " . $e->getMessage());
-            $this->model->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
+            $this->logError("Store user failed: " . $e->getMessage());
+            $this->genericErr = "Sorry technisch probleem, gegevens opslaan niet mogelijk";
         }
     }    
 
@@ -203,7 +203,7 @@ class UserModel extends PageModel {
                         break;
                 }
             } catch (Exception $e) {
-                logError("Login failed: " . $e->getMessage());
+                $this->logError("Login failed: " . $e->getMessage());
                 $this->genericErr = "Sorry technisch probleem, inloggen niet mogelijk";
             }
         }
@@ -247,7 +247,7 @@ class UserModel extends PageModel {
                             break;
                     }
                 } catch (Exception $e) {
-                    logError("Password verify failed: " . $e->getMessage());
+                    $this->logError("Password verify failed: " . $e->getMessage());
                     $this->genericErr = "Sorry technisch probleem, wachtwoord kan niet worden geverifieerd";
                 }
             }
@@ -293,7 +293,7 @@ class UserModel extends PageModel {
             $this->userCrud->updateUserPassword($this->userid, $this->newpass);
             $this->genericMsg = "Wachtwoord successvol gewijzigd.";
         } catch (Exception $e) {
-            logError("Overwriting password failed: " . $e->getMessage());
+            $this->logError("Overwriting password failed: " . $e->getMessage());
             $this->genericErr = "Sorry, technische storing. Wachtwoord wijzigen niet mogelijk.";
         }
     }

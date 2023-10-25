@@ -21,7 +21,7 @@ class ShopModel extends PageModel {
         try {
             return $this->shopCrud->getAllProducts();
         } catch (Exception $e) { 
-            logError("Get all products failed: " . $e->getMessage()); 
+            $this->logError("Get all products failed: " . $e->getMessage()); 
             $this->genericErr = "Sorry technisch probleem, gegevens ophalen niet mogelijk"; 
         } 
     }
@@ -30,7 +30,7 @@ class ShopModel extends PageModel {
         try {
             return $this->shopCrud->getTopFiveProducts();
         } catch (Exception $e) { 
-            logError("Get all products failed: " . $e->getMessage()); 
+            $this->logError("Get all products failed: " . $e->getMessage()); 
             $this->genericErr = "Sorry technisch probleem, gegevens ophalen niet mogelijk"; 
         }
     }
@@ -40,7 +40,7 @@ class ShopModel extends PageModel {
             $productid = $this->getUrlVar("productid");
             return $this->shopCrud->getProduct($productid);
         } catch (Exception $e) { 
-            logError("Get all products failed: " . $e->getMessage()); 
+            $this->logError("Get all products failed: " . $e->getMessage()); 
             $this->genericErr = "Sorry technisch probleem, gegevens ophalen niet mogelijk"; 
         }
     }
@@ -77,7 +77,7 @@ class ShopModel extends PageModel {
             $this->shopCrud->createOrder($userId, $cart);
             return true;
         } catch (Exception $e) {
-            logError("Checkout failed: " . $e->getMessage());
+            $this->logError("Checkout failed: " . $e->getMessage());
             $this->genericErr = "Sorry technisch probleem, order plaatsen niet mogelijk"; 
             return false;
         }
@@ -109,7 +109,7 @@ class ShopModel extends PageModel {
                 ];
             } 
         } catch (Exception $e) {
-            logError("Getting cart products failed: " . $e->getMessage()); 
+            $this->logError("Getting cart products failed: " . $e->getMessage()); 
             $this->genericErr = "Sorry, door een technische storing kunnen wij uw winkelwagen niet weergeven"; 
         }
     }
