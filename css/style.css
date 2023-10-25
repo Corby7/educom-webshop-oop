@@ -19,6 +19,20 @@
     background-color: purple;
 } */
 
+.star {
+    font-size: 18px;
+    color: #000;
+    cursor: pointer;
+    width: 50px;
+}
+
+.star:hover {
+    color: #F00;
+}
+
+.red {
+    color: #F00;
+}
 
 nav {
     height: 60px;

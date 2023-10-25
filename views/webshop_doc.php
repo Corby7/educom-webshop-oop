@@ -15,23 +15,30 @@ class WebshopDoc extends ProductDoc {
             
             echo '
             <div class="col">
-                <a href="index.php?page=productpage&productid=' . $product->id . '" class="productlink text-decoration-none">
-                    <div class="card">
+                <div class="card">
+                    <a href="index.php?page=productpage&productid=' . $product->id . '" class="productlink text-decoration-none">
                         <img src="images/' . $product->filenameimage . '" class="img-fluid" style="width: 400px" alt="Image of ' . $product->name . '">
-                        <div class="card-body d-flex flex-wrap g-4 justify-content-between align-items-center">
-                            <div class="d-flex flex-column">
-                                <span class="card-title h2">' . $product->name . '</span>
-                                <span class="card-subtitle">€' . $product->price . '</span>
+                    </a>
+                    <div class="card-body d-flex flex-wrap g-4 justify-content-between align-items-center">
+                        <div class="d-flex flex-column">
+                            <span class="card-title h2">' . $product->name . '</span>
+                            <div class="rating">
+                                <span class="star" data-value="1">*</span>
+                                <span class="star" data-value="2">*</span>
+                                <span class="star" data-value="3">*</span>
+                                <span class="star" data-value="4">*</span>
+                                <span class="star" data-value="5">*</span>
                             </div>
-                            <div>';
-                            if($this->model->isUserLoggedIn()) {
-                                $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $product->id);
-                            }
-                            echo '
-                            </div>
+                            <span class="card-subtitle">€' . $product->price . '</span>
+                        </div>
+                        <div>';
+                        if($this->model->isUserLoggedIn()) {
+                            $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $product->id);
+                        }
+                        echo '
                         </div>
                     </div>
-                </a>
+                </div>
             </div>';
         }
 

@@ -18,8 +18,19 @@ class ProductPageDoc extends ProductDoc {
             </div>
             <div class="col-md-8">
                 <div class="product-card product-info">
-                    <h2 class="card-title product-name">' . $product->name . '</h2>
-                    <p class="card-text price h5">€' . $product->price . '</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h2 class="card-title product-name">' . $product->name . '</h2>
+                            <p class="card-text price h5">€' . $product->price . '</p>
+                        </div>
+                        <div class="rating">
+                            <span class="star" data-value="1"><i class="bi bi-star"></i></span>
+                            <span class="star" data-value="2"><i class="bi bi-star"></i></span>
+                            <span class="star" data-value="3"><i class="bi bi-star"></i></span>
+                            <span class="star" data-value="4"><i class="bi bi-star"></i></span>
+                            <span class="star" data-value="5"><i class="bi bi-star"></i></span>
+                        </div>
+                    </div>
                     <p class="card-text description">' . $product->description . '</p>';
                     if($this->model->isUserLoggedIn()) {
                             $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $product->id);
