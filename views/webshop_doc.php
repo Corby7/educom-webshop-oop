@@ -22,7 +22,7 @@ class WebshopDoc extends ProductDoc {
                     <div class="card-body d-flex flex-wrap g-4 justify-content-between align-items-center">
                         <div class="d-flex flex-column">
                             <span class="card-title h2">' . $product->name . '</span>
-                            <div class="rating">
+                            <div class="rating" data-productid="' . $product->id . '">
                                 <span class="star" data-value="1">*</span>
                                 <span class="star" data-value="2">*</span>
                                 <span class="star" data-value="3">*</span>
