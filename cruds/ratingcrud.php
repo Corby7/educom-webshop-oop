@@ -2,13 +2,23 @@
 
 class RatingCrud {
 
-public function saveRatingProduct($productId, $UserId, $rating) {}
+    private $crud;
 
-public function adjustRatingProduct($productId, $userId, $rating) {}
+    public function __construct($crud) {
+        $this->crud = $crud;
+    }
 
-public function getProductRating($productId) {}
+    public function saveRatingProduct($productId, $UserId, $rating) {}
 
-public function getAllRatings($productIds) {}
+    public function adjustRatingProduct($productId, $userId, $rating) {}
+
+    public function getProductRating($productId) {
+        $sql = "SELECT rating FROM products WHERE id = :id";
+        $params = ['id' => $productId];
+        return $this->crud->readOneRow($sql, $params);
+    }
+
+    public function getAllRatings($productIds) {}
 
 }
 
