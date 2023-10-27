@@ -13,6 +13,7 @@ class ShopModel extends PageModel {
     public $cartLines = array();
     public $cartTotal = 0;
 
+    //overbodig?
     public function isUserLoggedIn() {
         return $this->sessionManager->isUserLoggedIn();
     }
