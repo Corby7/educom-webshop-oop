@@ -23,7 +23,7 @@ class ProductPageDoc extends ProductDoc {
                             <h2 class="card-title product-name">' . $product->name . '</h2>
                             <p class="card-text price h5">€' . $product->price . '</p>
                         </div>
-                        <div class="rating">
+                        <div class="rating" data-productid="' . $product->id . '">
                             <span class="star" data-value="1"><i class="bi bi-star"></i></span>
                             <span class="star" data-value="2"><i class="bi bi-star"></i></span>
                             <span class="star" data-value="3"><i class="bi bi-star"></i></span>
