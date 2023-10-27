@@ -2,6 +2,14 @@
 
 class AjaxController {
 
+    private $modelFactory;
+    private $ratingCrud;
+
+    public function __construct($modelFactory) {
+        $this->modelFactory = $modelFactory;
+        $this->ratingCrud = $this->modelFactory->crudFactory->createCrud('rating');
+    }
+
     public function test($rating) {
         // echo "rating: " .$rating;
     }
@@ -30,8 +38,12 @@ class AjaxController {
         switch($function) {
 
             case 'getRating':
-                echo $productId;
+
+                // echo $productId;
+                $result = $this->ratingCrud->getProductRating($productId);
+                echo $result->rating;
                 break;
+
             default:
                 echo 'default';
                 break;
