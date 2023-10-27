@@ -1,6 +1,7 @@
 <?php
 require_once('cruds/usercrud.php');
 require_once('cruds/shopcrud.php');
+require_once('cruds/ratingcrud.php');
 
 class CrudFactory {
 
@@ -18,6 +19,8 @@ class CrudFactory {
             case 'shop':
                 return new ShopCrud($this->crud);
                 break;
+            case 'rating':
+                return new RatingCrud($this->crud);
         }
     }
 }
