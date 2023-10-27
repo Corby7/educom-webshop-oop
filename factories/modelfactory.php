@@ -2,7 +2,7 @@
 
 class ModelFactory {
 
-    private $crudFactory;
+    public $crudFactory;
     private $lastModel = NULL;
 
     public function __construct($crudFactory) {
@@ -25,6 +25,7 @@ class ModelFactory {
         }
         return $this->lastModel;
     }
+    
 }
 
 ?>
