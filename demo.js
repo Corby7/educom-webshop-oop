@@ -1,28 +1,50 @@
 $(document).ready(function() {
 
-  productID = $(".rating").attr('data-productid');
-  console.log(productID);
+  showAllRatings();
 
-
-    $.ajax({
-      type: 'GET',
-      url: "index.php?action=ajax&function=getRating&id=4>",
-      success: function($ratingValue) {
-        console.log('succes', $ratingValue);
-        fillStars(parseInt($ratingValue));
-      }
-    });
-
-    function fillStars($value) {
-      $('.star').each((index, elem) => {
-        const itemValue = $(elem).attr('data-value')
-        if(itemValue <= $value) {
-          $(elem).addClass('red')
+  function showAllRatings() {
+    $('.rating').each((index, elem) => {
+      const productId = $(elem).attr('data-productid')
+  
+      $.ajax({
+        type: 'GET',
+        url: "index.php?action=ajax&function=getRating&id=" + productId,
+        success: function (ratingValue) {
+          //console.log('ratingvalue:', ratingValue);
+          fillAllStars(productId, parseInt(ratingValue));
         }
       });
-    }
+    });
+  }
+  
+  function fillAllStars(productId, value) {
+    $('.rating[data-productid="' + productId + '"] .star').each((index, elem) => {
+      const itemValue = $(elem).attr('data-value');
+      //console.log(index + ":" + itemValue);
+      if (parseInt(itemValue) <= value) { 
+        $(elem).addClass('red');
+      }
+    });
+  }
 
-   
+  // function getRating() {
+  //   productId = $(".rating").attr('data-productid');
+  //   console.log(productId);
+  //   fillStar(rating);
+  // }
+
+
+  function fillStar(value) {
+    $('.star').each((index, elem) => {
+      const itemValue = $(elem).attr('data-value')
+      //console.log(index + ":" + itemValue);
+      if(itemValue <= value) {
+        $(elem).addClass('red')
+      }
+    });
+  }
+
+  function updateRating() {
     $(".star").click(function() {
         const value = $(this).attr('data-value')
 
@@ -30,7 +52,7 @@ $(document).ready(function() {
         $(".star").removeClass('red')
         
         //paint all stars red
-        fillStars(value);
+        fillStar(value);
 
         $.ajax({
           type: "POST",
@@ -41,6 +63,7 @@ $(document).ready(function() {
           }
         });
     })
+  }
 
  });
 
