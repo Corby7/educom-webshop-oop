@@ -22,8 +22,7 @@ class PageController {
         if ($actionValue === 'ajax') {
             require_once('ajaxcontroller.php');
             $ajaxController = new AjaxController($this->modelFactory);
-            $ajaxController->processRequest();
-            // $ajaxController->test(2);
+            $ajaxController->handleRequest();
         } else {
         $this->getRequest();
         $this->processRequest();
