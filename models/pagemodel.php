@@ -8,7 +8,7 @@ class PageModel {
     public $isPost = false;
     public $menu;
     public $genericErr = "";
-    protected $sessionManager;
+    public $sessionManager;
 
     public function __construct($copy) {
         if (empty($copy)) {
@@ -42,12 +42,12 @@ class PageModel {
         $this->page = $newPage;
     }
 
-    protected function getPostVar($key, $default = "") {
+    public function getPostVar($key, $default = "") {
         $value = filter_input(INPUT_POST, $key, FILTER_SANITIZE_STRING);
         return isset($value) ? $value : $default;
     }
 
-    protected function getUrlVar($key, $default = "") {
+    public function getUrlVar($key, $default = "") {
         $value = filter_input(INPUT_GET, $key, FILTER_SANITIZE_STRING);
         return isset($value) ? $value : $default;
     }
