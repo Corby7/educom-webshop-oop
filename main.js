@@ -3,18 +3,37 @@ $(document).ready(function() {
   showAllRatings();
 
   function showAllRatings() {
+    var productsArray = [];
+
+    //loop through all products and add them to array
     $('.rating').each((index, elem) => {
-      const productId = $(elem).attr('data-productid')
-  
-      $.ajax({
-        type: 'GET',
-        url: "index.php?action=ajax&function=getRating&id=" + productId,
-        success: function (ratingValue) {
-          //console.log('ratingvalue:', ratingValue);
-          fillAllStars(productId, parseInt(ratingValue));
-        }
-      });
+      const productId = $(elem).attr('data-productid');
+      productsArray.push(productId);
     });
+
+    //if array only has one product, get that rating
+    if (productsArray.length === 1) {
+      const productId = productsArray[0];
+      getAjax("getRating&id=" + productId);
+  
+    //if array has more products, get all ratings
+    } else {
+      getAjax("getAllRatings");
+    }
+  }
+
+  function getAjax(url) {
+    $.ajax({
+      type: 'GET',
+      url: "index.php?action=ajax&function=" + url,
+      success: function (data) {
+        const productsArray = JSON.parse(data);
+  
+        $.each(productsArray, function(index, product) {
+            fillAllStars(product.id, product.rating);
+        });
+      }
+    }); 
   }
   
   function fillAllStars(productId, value) {
@@ -26,13 +45,6 @@ $(document).ready(function() {
       }
     });
   }
-
-  // function getRating() {
-  //   productId = $(".rating").attr('data-productid');
-  //   console.log(productId);
-  //   fillStar(rating);
-  // }
-
 
   function fillStar(value) {
     $('.star').each((index, elem) => {
@@ -48,7 +60,6 @@ $(document).ready(function() {
 
   function updateRating() {
     const productId = $('.rating').attr('data-productid');
-    console.log(productId);
 
     $(".star").click(function() {
         const value = $(this).attr('data-value')
