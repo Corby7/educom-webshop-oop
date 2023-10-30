@@ -23,7 +23,11 @@ class ProductPageDoc extends ProductDoc {
                             <h2 class="card-title product-name">' . $product->name . '</h2>
                             <p class="card-text price h4 fw-bold text-danger">€' . $product->price . '</p>
                         </div>
-                        <div class="rating me-3" data-productid="' . $product->id . '">
+                        <div class="rating me-3 ';
+                        if(!$this->model->isUserLoggedIn()) {
+                            echo 'unclickablerating';
+                        }
+                        echo '" data-productid="' . $product->id . '">
                             <span class="star" data-value="1"><i class="bi bi-star"></i></span>
                             <span class="star" data-value="2"><i class="bi bi-star"></i></span>
                             <span class="star" data-value="3"><i class="bi bi-star"></i></span>

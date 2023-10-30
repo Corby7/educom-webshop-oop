@@ -25,7 +25,7 @@ class TopFiveDoc extends ProductDoc {
                             <div class="d-flex flex-column justify-content-evenly">
                                 <div class="d-flex justify-content-center gap-2">
                                     <span class="card-title h2">' . $product->name . '</span>
-                                    <div class="rating" data-productid="' . $product->id . '">
+                                    <div class="rating unclickablerating" data-productid="' . $product->id . '">
                                         <span class="star" data-value="1"><i class="bi bi-star"></i></span>
                                         <span class="star" data-value="2"><i class="bi bi-star"></i></span>
                                         <span class="star" data-value="3"><i class="bi bi-star"></i></span>
