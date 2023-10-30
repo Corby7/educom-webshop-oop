@@ -19,25 +19,6 @@
     background-color: purple;
 } */
 
-.star {
-    font-size: 18px;
-    color: #000;
-    cursor: pointer;
-    width: 50px;
-}
-
-.unclickablerating .star {
-    pointer-events: none;
-}
-
-.star:hover {
-    color: #F00;
-}
-
-.red {
-    color: #F00;
-}
-
 nav {
     height: 60px;
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15),inset 0 -1px 0 rgba(255,255,255,0.15);
@@ -158,5 +139,31 @@ li.nav-item:nth-child(6) {
 .cartplus:hover i:nth-child(2) {
     display: inline;
     color: #0d6efd;
+}
+
+/* rating stars styling */
+.star {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.unclickablerating .star {
+    pointer-events: none;
+}
+
+.star .bi-star-fill:hover, 
+.star .bi-star:hover {
+    color: #0d6efd;
+}
+
+.star .bi-star,
+.star .bi-star-fill {
+    display: inline;
+    color: rgb(240, 183, 39);
+}
+
+.star .bi-star.hide,
+.star .bi-star-fill.hide {
+    display: none;
 }
 
