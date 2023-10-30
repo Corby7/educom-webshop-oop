@@ -27,12 +27,9 @@ class ProductPageDoc extends ProductDoc {
                         if(!$this->model->isUserLoggedIn()) {
                             echo 'unclickablerating';
                         }
-                        echo '" data-productid="' . $product->id . '">
-                            <span class="star" data-value="1"><i class="bi bi-star"></i></span>
-                            <span class="star" data-value="2"><i class="bi bi-star"></i></span>
-                            <span class="star" data-value="3"><i class="bi bi-star"></i></span>
-                            <span class="star" data-value="4"><i class="bi bi-star"></i></span>
-                            <span class="star" data-value="5"><i class="bi bi-star"></i></span>
+                        echo '" data-productid="' . $product->id . '">';
+                            $this->ratingStars();
+                        echo '
                         </div>
                     </div>
                     <p class="card-text description">' . $product->description . '</p>';

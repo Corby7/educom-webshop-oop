@@ -49,6 +49,14 @@ abstract class ProductDoc extends BasicDoc {
         </div>';
     }
 
+    protected function ratingStars() {
+        $starCount = 5;
+
+        foreach (range(1, $starCount) as $i) {
+            echo '<span class="star" data-value="' . $i . '"><i class="bi bi-star hide"></i><i class="bi bi-star-fill hide"></i></span>';
+        }
+    }
+
 }
 
 ?>
