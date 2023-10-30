@@ -59,6 +59,9 @@ class AjaxController {
                 } else {
                     $this->ratingCrud->saveProductRating($productId, $userId, $rating);
                 }
+                $result = $this->ratingCrud->getProductRating($productId);
+                $result = array($result);
+                echo $this->toJSON($result);
                 break;
 
             default:
