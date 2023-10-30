@@ -17,13 +17,13 @@ class ProductPageDoc extends ProductDoc {
                 <img src="images/' . $product->filenameimage . '" class="img-fluid" style="width: 350px" alt="Image of ' . $product->name . '">
             </div>
             <div class="col-md-8">
-                <div class="product-card product-info">
+                <div class="d-flex flex-column product-card product-info gap-2">
                     <div class="d-flex justify-content-between align-items-center">
-                        <div>
+                        <div class="d-flex flex-column gap-2">
                             <h2 class="card-title product-name">' . $product->name . '</h2>
-                            <p class="card-text price h5">€' . $product->price . '</p>
+                            <p class="card-text price h4 fw-bold text-danger">€' . $product->price . '</p>
                         </div>
-                        <div class="rating" data-productid="' . $product->id . '">
+                        <div class="rating me-3" data-productid="' . $product->id . '">
                             <span class="star" data-value="1"><i class="bi bi-star"></i></span>
                             <span class="star" data-value="2"><i class="bi bi-star"></i></span>
                             <span class="star" data-value="3"><i class="bi bi-star"></i></span>
