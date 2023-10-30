@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     //loop through all products and add them to array
     $('.rating').each((index, elem) => {
-      const productId = $(elem).attr('data-productid');
+      const productId = $(elem).data('productid');
       productsArray.push(productId);
     });
 
@@ -30,56 +30,53 @@ $(document).ready(function() {
         const productsArray = JSON.parse(data);
   
         $.each(productsArray, function(index, product) {
-            fillAllStars(product.id, product.rating);
+            fillStars(product.rating, product.id);
         });
       }
     }); 
   }
+
+  function fillStars(value, productId = null) {
+    const selector = productId !== null ? `.rating[data-productid="${productId}"]` : '';
+    $(`${selector} .star`).each((index, elem) => {
+      const itemValue = $(elem).data('value');
+      const star = $(elem).find('.bi-star');
+      const starFill = $(elem).find('.bi-star-fill');
   
-  function fillAllStars(productId, value) {
-    $('.rating[data-productid="' + productId + '"] .star').each((index, elem) => {
-      const itemValue = $(elem).attr('data-value');
-      //console.log(index + ":" + itemValue);
-      if (parseInt(itemValue) <= value) { 
-        $(elem).addClass('red');
+      if (itemValue <= value) {
+        star.addClass('hide');
+        starFill.removeClass('hide');
+      } else {
+        star.removeClass('hide');
+        starFill.addClass('hide');
       }
     });
   }
-
-  function fillStar(value) {
-    $('.star').each((index, elem) => {
-      const itemValue = $(elem).attr('data-value')
-      //console.log(index + ":" + itemValue);
-      if(itemValue <= value) {
-        $(elem).addClass('red')
-      }
-    });
-  }
-
+  
   updateRating();
 
   function updateRating() {
-    const productId = $('.rating').attr('data-productid');
+    const productId = $('.rating').data('productid');
 
     $(".star").click(function() {
-        const value = $(this).attr('data-value')
+        const value = $(this).data('value')
         console.log(value);
 
-        //clear all stars on click
-        $(".star").removeClass('red')
-        
-        //paint all stars red
-        fillStar(value);
+        //paint all stars
+        fillStars(value);
 
         $.ajax({
           type: "POST",
           url: "index.php?action=ajax&function=updateRating&id=" + productId + "&rating=" + value,
-          //data: { rating: value },
-          success: function(result) {
-            //code dat runned op succes
+          success: function(data) {
+            const productsArray = JSON.parse(data);
+  
+            $.each(productsArray, function(index, product) {
+                fillStars(product.rating, product.id);
+            }); 
           }
         });
-    })
+    });
   }
 
  });
