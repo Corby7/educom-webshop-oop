@@ -20,18 +20,18 @@ class WebshopDoc extends ProductDoc {
                         <img src="images/' . $product->filenameimage . '" class="img-fluid" style="width: 400px" alt="Image of ' . $product->name . '">
                     </a>
                     <div class="card-body d-flex justify-content-between m-1">
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column justify-content-evenly">
                             <span class="card-title h2">' . $product->name . '</span>
-                            <span class="card-subtitle h4 fw-bold text-danger">€' . $product->price . '</span>
-                        </div>
-                        <div class="d-flex flex-column justify-content-around align-items-end g-2 mt-1">
                             <div class="rating unclickablerating" data-productid="' . $product->id . '">';
                                 $this->ratingStars();
-                            echo '</div>';
-                        if($this->model->isUserLoggedIn()) {
-                            $this->showActionForm('shoppingcart', 'addtocart', 'Add to cart', $product->id);
-                        }
-                        echo '
+                            echo '</div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between align-items-center gap-2">
+                            <span class="card-subtitle h4 fw-bold text-danger">€' . $product->price . '</span>';
+                            if($this->model->isUserLoggedIn()) {
+                                $this->showActionForm('shoppingcart', 'addtocart', '', $product->id);
+                            }
+                            echo '
                         </div>
                     </div>
                 </div>
