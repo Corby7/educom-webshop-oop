@@ -14,8 +14,11 @@ abstract class ProductDoc extends BasicDoc {
                 <input type="hidden" name="page" value="' . $pagevalue . '">';
 
                 if (empty($type)) {
+                    $buttonClasses = 'cartplus btn btn-primary d-flex webshop-button';
+                    $buttonClasses .= !empty($text) ? ' gap-2' : '';
+
                     echo '
-                    <button class="cartplus btn btn-primary d-flex gap-2 pxy-2 webshop-button" id="button-invert" 
+                    <button class="' . $buttonClasses . '" id="button-invert"
                     type="submit" name="action" value="' . $actionvalue . '">
                         <i class="bi bi-bag-plus"></i>
                         <i class="bi bi-bag-plus-fill"></i>
