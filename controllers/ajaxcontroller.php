@@ -1,6 +1,5 @@
 <?php
 
-//extends pagemodel for sessionmanager and geturlvar/postvar functions?
 class AjaxController {
 
     private $modelFactory;
@@ -37,25 +36,23 @@ class AjaxController {
             $rating = $this->model->getUrlVar("rating");
         }
 
-        // echo "function :" . $function;
-        // echo "productid :" . $productId;
-        // echo "rating :" . $rating;
-
         switch($function) {
 
             case 'getRating':
-
-                // echo $productId;
                 $result = $this->ratingCrud->getProductRating($productId);
-                echo $result->average;
+                $result = array($result);
+                echo $this->toJSON($result);
                 break;
+            
+            case 'getAllRatings':
+                $result = $this->ratingCrud->getAllRatings();
+                echo $this->toJSON($result);
+                break;
+
 
             case 'updateRating':
                 $userId = $this->model->sessionManager->getLoggedInUserId();
                 
-                // echo "userid :" . $userId;
-                // echo "productid :" . $productId;
-                // echo "rating :" . $rating;
                 $exists = $this->ratingCrud->ratingExists($productId, $userId);
                 if ($exists->result == '1') {
                     $this->ratingCrud->updateProductRating($productId, $userId, $rating);
@@ -70,5 +67,19 @@ class AjaxController {
         }
     }   
 
+    public function toJSON($result) {
+        $jsonArray = array();
+    
+        foreach ($result as $product) {
+            $productData = array(
+                "id" => $product->product_id,
+                "rating" => $product->average
+            );
+    
+            $jsonArray[] = $productData;
+        }
+    
+        return json_encode($jsonArray);
+    }
 }
 ?>
