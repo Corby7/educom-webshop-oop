@@ -15,7 +15,7 @@ class RatingCrud {
     }
 
     public function getProductRating($productId) {
-        $sql = "SELECT ROUND(AVG(rating), 0) AS average FROM ratings WHERE product_id = :product_id";
+        $sql = "SELECT product_id, ROUND(AVG(rating), 0) AS average FROM ratings WHERE product_id = :product_id";
         $params = ['product_id' => $productId];
         return $this->crud->readOneRow($sql, $params);
     }
@@ -32,10 +32,12 @@ class RatingCrud {
         return $this->crud->updateRow($sql, $params);
     }
 
+    public function getAllRatings() {
+        $sql = "SELECT product_id, ROUND(AVG(rating), 0) as average FROM `ratings` GROUP BY product_id";
+        $params = [];
+        return $this->crud->readManyRows($sql, $params);
+    }
 
-    //SELECT id, user_id, product_id, ROUND(AVG(rating), 0) AS average FROM `ratings` GROUP BY product_id; 
-
-    public function getAllRatings($productIds) {}
 
 }
 
