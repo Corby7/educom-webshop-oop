@@ -4,41 +4,37 @@
 class AjaxController {
 
     private $modelFactory;
+    private $model;
     private $ratingCrud;
-
-    public $isPost = false;
 
     public function __construct($modelFactory) {
         $this->modelFactory = $modelFactory;
+        $this->model = $this->modelFactory->createModel('page');
         $this->ratingCrud = $this->modelFactory->crudFactory->createCrud('rating');
     }
 
-    public function test($rating) {
-        // echo "rating: " .$rating;
-    }
-
-    protected function getPostVar($key, $default = "") {
-        $value = filter_input(INPUT_POST, $key, FILTER_SANITIZE_STRING);
-        return isset($value) ? $value : $default;
-    }
-
-    protected function getUrlVar($key, $default = "") {
-        $value = filter_input(INPUT_GET, $key, FILTER_SANITIZE_STRING);
-        return isset($value) ? $value : $default;
-    }
+    public function handleRequest() {
+        $this->getRequest();
+        $this->processRequest();
+        //$this->showResponse();
+        }
+ 
+    //from client
+    private function getRequest() {
+        $this->model->getRequestedPage();
+    }    
 
     public function processRequest() {
-        $this->isPost = ($_SERVER['REQUEST_METHOD'] == 'POST');
         $this->handleActions();
     }
     
 
     public function handleActions() {
-        $function = $this->getUrlVar("function");
-        $productId = $this->getUrlVar("id");
+        $function = $this->model->getUrlVar("function");
+        $productId = $this->model->getUrlVar("id");
 
-        if ($this->isPost) {
-            $rating = $this->getUrlVar("rating");
+        if ($this->model->isPost) {
+            $rating = $this->model->getUrlVar("rating");
         }
 
         // echo "function :" . $function;
@@ -55,7 +51,8 @@ class AjaxController {
                 break;
 
             case 'updateRating':
-                $userId = ($_SESSION['userid']); //tijdelijk moet anders!
+                $userId = $this->model->sessionManager->getLoggedInUserId();
+                
                 // echo "userid :" . $userId;
                 // echo "productid :" . $productId;
                 // echo "rating :" . $rating;
